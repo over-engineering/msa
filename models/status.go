@@ -39,7 +39,7 @@ type Status struct {
 	// 성향은 나쁘고 좋은 게 없다. => 성향은 유저의 선택으로 영향을 받고 캐릭터의 행동을 결정 짓는 것 뿐.
 	// 이벤트 관련 주변 연락, 약속 잡히는 빈도, 친구들의 성향.
 	Intelligence map[IntelligenceType]Intelligence `json:"Intelligence"`
-	Personality  map[PersonalityType]Personality   `json:"personality"`
+	Personality  Personality                       `json:"personality"`
 
 	Memory     float32 `json:"memory"`
 	Creativity float32 `json:"creativity"`
