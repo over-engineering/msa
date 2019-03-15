@@ -103,94 +103,9 @@ var mentalCoefficients = map[MentalType]map[string]float32{
 	},
 }
 
-// var (
-// 	ambitionCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	boldnessCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	aggressionCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	predictationCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	composureCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	concentrationCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	immersionCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	competitionCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	selfEsteemCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	confidenceCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// 	attentionCoe = map[string]float32{
-// 		"Example1": 0.1,
-// 		"Example2": 0.4,
-// 		"Example3": 0.5,
-// 	}
-// )
-
-// MentalCoefficient: unexported struct
-// type mentalCoefficient struct {
-// 	ambitionCoe      []float32
-// 	boldnessCoe      []float32
-// 	aggressionCoe    []float32
-// 	predictationCoe  []float32
-// 	composureCoe     []float32 // 참착성
-// 	concentrationCoe []float32
-// 	immersionCoe     []float32
-// 	competitionCoe   []float32
-// 	selfEsteemCoe    []float32
-// 	confidenceCoe    []float32
-// 	attentionCoe     []float32 // 관종도
-// }
-
 type Mental struct {
 	Type  MentalType `json:"type"`
 	Value float32    `json:"value"` // max value is 100
-	// Coefficients []float32  `json:"coefficient"`
-	// Ambition      float32 `json:"ambition"`
-	// Boldness      float32 `json:"boldness"`
-	// Aggression    float32 `json:"aggression"`
-	// Predictation  float32 `json:"predictation"`
-	// Composure     float32 `json:"composure"` // 참착성
-	// Concentration float32 `json:"concentration"`
-	// Immersion     float32 `json:"immersion"`
-	// Competition   float32 `json:"competition"`
-	// SelfEsteem    float32 `json:"selfEsteem"`
-	// Confidence    float32 `json:"confidence"`
-	// Attention     float32 `json:"attention"` // 관종도
 }
 
 // NewMental: make new mental
@@ -206,31 +121,6 @@ func NewMental(t MentalType, values map[string]float32) (Mental, error) {
 	if len(coefficients) != len(values) {
 		return mental, fmt.Errorf("key number is different in mental type %v", t)
 	}
-	// switch t {
-	// case Ambition:
-	// 	coefficients = ambitionCoe
-	// case Boldness:
-	// 	coefficients = boldnessCoe
-	// case Aggression:
-	// 	coefficients = aggressionCoe
-	// case Predictation:
-	// 	coefficients = predictationCoe
-	// case Composure:
-	// 	coefficients = composureCoe
-	// case Concentration:
-	// 	coefficients = concentrationCoe
-	// case Immersion:
-	// 	coefficients = immersionCoe
-	// case Competition:
-	// 	coefficients = competitionCoe
-	// case SelfEsteem:
-	// 	coefficients = selfEsteemCoe
-	// case Confidence:
-	// 	coefficients = confidenceCoe
-	// case Attention:
-	// 	coefficients = attentionCoe
-	// default:
-	// }
 
 	var totalCoe float32
 	for key, value := range values {
@@ -340,8 +230,6 @@ func test() {
 	}
 
 	mentalMap, err := NewMentalMap(testSet)
-
-	// fmt.Printf(mentalMap, err)
 	fmt.Println(mentalMap, err)
 
 }
