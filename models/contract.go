@@ -1,0 +1,24 @@
+package models
+
+// Contract TBD
+type Contract struct {
+	Team        Team      `json:"team"`
+	Salary      int       `json:"salary"`
+	DownPayment int       `json:"downPayment"` // 계약금
+	Penalties   []Penalty `json:"penalties"`
+	Option      Option    `json:"option"`
+}
+
+// Penalty could be diverse from early contract termination to violation
+// for team training.
+type Penalty interface {
+	Violation() string // 어떤 것을 위반했는지를 string으로 반환
+	Value() int        // 벌금이 얼마인지를 반환
+}
+
+// Option could be diverse from simple incentives to release, buyout
+// condition.
+type Option interface {
+	Type() Type // Option type을 반환
+	// 여기다가 이제 option이 발동하는 컨디션 및 결과를 지정해주는 메소드를 지정하고자 함.
+}

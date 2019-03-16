@@ -4,6 +4,7 @@ package models
 // All equipments should have Type, Effect and Durability.
 type Equipment interface {
 	Type() EquipmentType
+	Name() string
 	Effect()
 	Durability()
 }
@@ -19,4 +20,18 @@ const (
 	EQUIP_RIGHT_HAND                      // 4
 	EQUIP_LEFT_FOOT                       // 5
 	EQUIP_RIGHT_FOOT                      // 6
+	EQUIP_TRAINER                         // 7
+	EQUIP_AGENT                           // 8
 )
+
+type HeadGear struct {
+	name string
+}
+
+func (h *HeadGear) Type() EquipmentType {
+	return EQUIP_HEAD
+}
+
+func (h *HeadGear) Name() string {
+	return h.name
+}
