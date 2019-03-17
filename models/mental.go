@@ -101,23 +101,30 @@ var mentalCoefficients = map[MentalType]map[string]float32{
 	},
 }
 
+var PersonalityCoefficients = map[MentalType]map[PersonalityType]float32{}
+
 type Mental struct {
-	Type              MentalType                  `json:"type"`
-	Value             float32                     `json:"value"` // max value is 100
-	PersonalityImpact map[PersonalityType]float32 `json:"impact"`
+	Type  MentalType `json:"type"`
+	Value float32    `json:"value"` // max value is 100
+	//PersonalityImpact map[PersonalityType]float32 `json:"impact"`
 }
 
 // coefficient impact?
 // func (m Mental) UpdateMentalValue(amount float32) {
 // }
 
-func (m Mental) UpdateMentalValue(p PersonalityType, amount float32) {
-	m.Value += amount * m.PersonalityImpact[p]
+// func  UpdateMentalValue(p PersonalityType, amount float32, PersonalityImpact map[PersonalityType]float32) {
+// 	m.Value += amount * PersonalityImpact
+// }
+
+// func (m Mental) UpdateValue(amount float32, p PersonalityType, PersonalityImpact map[PersonalityType]float32) {
+func (m Mental) UpdateValue(amount float32) {
+	m.Value += amount
 }
 
 // NewMental: make new mental
-func NewMental(t MentalType, values map[string]float32, pImpact map[PersonalityType]float32) (Mental, error) {
-	mental := Mental{Type: t, Value: 0, PersonalityImpact: pImpact}
+func NewMental(t MentalType, values map[string]float32) (Mental, error) {
+	mental := Mental{Type: t, Value: 0}
 	coefficients := mentalCoefficients[t]
 
 	if coefficients == nil {
@@ -149,11 +156,11 @@ func NewMental(t MentalType, values map[string]float32, pImpact map[PersonalityT
 	return mental, nil
 }
 
-func NewMentalMap(values map[MentalType]map[string]float32, pImpacts map[MentalType]map[PersonalityType]float32) (map[MentalType]Mental, error) {
+func NewMentalMap(values map[MentalType]map[string]float32) (map[MentalType]Mental, error) {
 	mentalMap := map[MentalType]Mental{}
 	var err error
 	for key, value := range values {
-		if mentalMap[key], err = NewMental(key, value, pImpacts[key]); err != nil {
+		if mentalMap[key], err = NewMental(key, value); err != nil {
 			return mentalMap, err
 		}
 	}
