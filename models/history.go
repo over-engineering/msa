@@ -10,9 +10,9 @@ type LeagueHistory struct {
 }
 
 type TeamHistory struct {
-	League      []LeagueHistory `json:"leagueWon"`
+	League      []LeagueHistory `json:"league_won"`
 	Rival       *Team           `json:"rival"`
-	StarPlayers []*NPC          `json:"starPlayers"`
+	StarPlayers []*NPC          `json:"star_players"`
 	Created     time.Time       `json:"created"` // Maybe we have to make our own timestamp
 
 }

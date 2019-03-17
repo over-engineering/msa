@@ -6,9 +6,9 @@ import "strings"
 // Things could be referencing with unique IDs.
 type Character struct {
 	ID        int64   `json:"id,string"`
-	FirstName string  `json:"firstName"`
-	LastName  string  `json:"lastName"`
-	Job       JobType `json:"jobType"`
+	FirstName string  `json:"first_name"`
+	LastName  string  `json:"last_name"`
+	Job       JobType `json:"job_type"`
 	// TODO: Nationality
 	// TODO: user struct
 
@@ -19,7 +19,7 @@ type Character struct {
 
 	Finance  Finance  `json:"finance"` // Or maybe Account
 	Contract Contract `json:"contract"`
-	FanInfo  FanInfo  `json:"fanInfo"`
+	FanInfo  FanInfo  `json:"fan_info"`
 
 	// Character would not have a team. Also, team information
 	// could be shared with other players.

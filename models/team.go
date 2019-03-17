@@ -7,12 +7,12 @@ package models
 type Team interface {
 	UID() UID
 	Squad() []NPC
-	Captain() NPC
+	GetCaptain() NPC
 	SelectCaptain() // 게임마다 스쿼드가 변화가 생기면 새로 그 경기의 주장을 뽑아서 임명해야 한다.
-	Strategy() Strategy
-	Stadium() Facility
+	GetStrategy() Strategy
+	MainPlace() Facility
 	BestSquad() []NPC // 전략 및 스쿼드 구성원들 정보를 통해 베스트 스쿼드를 짜는 로직.
-	Manager() NPC
+	GetManager() NPC
 	Finance()
 	StarIndex() float32 // StartIndex range: 0~5
 	History() []History
@@ -25,11 +25,11 @@ type SoccerStrategy struct {
 }
 
 type SoccerTeam struct {
-	ID       UID `json:"id"`
-	squad    []NPC
-	manager  NPC
-	captain  NPC
-	stadium  Facility
-	strategy SoccerStrategy
+	ID       UID            `json:"id"`
+	Members  []NPC          `json:"members"`
+	Manager  NPC            `json:"manager"`
+	Captain  NPC            `json:"captain"`
+	Stadium  Stadium        `json:"stadium"`
+	Strategy SoccerStrategy `json:"strategy"`
 	// TBD
 }
