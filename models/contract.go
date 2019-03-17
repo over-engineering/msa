@@ -4,9 +4,9 @@ package models
 type Contract struct {
 	Team        Team      `json:"team"`
 	Salary      int       `json:"salary"`
-	DownPayment int       `json:"downPayment"` // 계약금
+	DownPayment int       `json:"down_payment"` // 계약금
 	Penalties   []Penalty `json:"penalties"`
-	Option      Option    `json:"option"`
+	Options     []Option  `json:"options"`
 }
 
 // Penalty could be diverse from early contract termination to violation

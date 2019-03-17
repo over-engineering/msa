@@ -7,5 +7,5 @@ type JointType Type
 type Joint struct {
 	Strength     int     `json:"strength"`  // Strength is the parameter for calculation of wearing out
 	Condition    float32 `json:"condition"` // Condition range: 0~1
-	MaxCondition float32 `json:"maxCondition"`
+	MaxCondition float32 `json:"max_condition"`
 }
