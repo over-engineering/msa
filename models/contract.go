@@ -1,10 +1,15 @@
 package models
 
-// Contract TBD
-type Contract struct {
+// Contract represents all kinds of contracts in the game.
+type Contract interface {
+	Sign()
+	// Negotiate(c Contract) bool
+}
+
+type SoccerTeamContract struct {
 	Team        Team      `json:"team"`
-	Salary      int       `json:"salary"`
-	DownPayment int       `json:"down_payment"` // 계약금
+	Salary      float32   `json:"salary"`
+	DownPayment float32   `json:"down_payment"` // 계약금
 	Penalties   []Penalty `json:"penalties"`
 	Options     []Option  `json:"options"`
 }
