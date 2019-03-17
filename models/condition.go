@@ -6,4 +6,5 @@ import "time"
 type Condition struct {
 	Type     string     `json:"type"`
 	Duration *time.Time `json:"duration"`
+	Effects  []Effect   `json:"effects"`
 }

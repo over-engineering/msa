@@ -1,5 +1,7 @@
 package models
 
+import "reflect"
+
 // Status represents all aspects of character's current state.
 type Status struct {
 	// 신체 상태
@@ -22,7 +24,7 @@ type Status struct {
 	// TODO: Sense
 
 	// Mental related features
-	Mentals map[MentalType]Mental `json:"mentals"`
+	Mentals Mentals `json:"mentals"`
 
 	// Intelligence(Gardner의 이론 차용)
 	// 성향 이론
@@ -33,4 +35,18 @@ type Status struct {
 
 	Memory     float32 `json:"memory"`
 	Creativity float32 `json:"creativity"`
+}
+
+func (s *Status) ApplyEffect(es Effects) {
+	for _, e := range es {
+		switch {
+		case e.Target == "Mentals":
+			s.Mentals.UpdateValue(e.Value.(Mentals))
+		// case e.Target == "Intelligence":
+		// 	s.Intelligence.UpdateValue(Value.(Intelligence))
+		default:
+			f := reflect.ValueOf(s).Elem().FieldByName(e.Target)
+			f.SetFloat(f.Float() + e.Value.(float64))
+		}
+	}
 }

@@ -20,9 +20,10 @@ const (
 )
 
 type HeadGear struct {
-	ID    UID     `json:"id"`
-	Name  string  `json:"name"`
-	Price float32 `json:"price"`
+	ID      UID      `json:"id"`
+	Name    string   `json:"name"`
+	Price   float32  `json:"price"`
+	Effects []Effect `json:"effect"`
 	// Duration
 }
 

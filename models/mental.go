@@ -109,6 +109,8 @@ type Mental struct {
 	//PersonalityImpact map[PersonalityType]float32 `json:"impact"`
 }
 
+type Mentals map[MentalType]*Mental
+
 // coefficient impact?
 // func (m Mental) UpdateMentalValue(amount float32) {
 // }
@@ -118,31 +120,33 @@ type Mental struct {
 // }
 
 // func (m Mental) UpdateValue(amount float32, p PersonalityType, PersonalityImpact map[PersonalityType]float32) {
-func (m Mental) UpdateValue(amount float32) {
-	m.Value += amount
+func (ms *Mentals) UpdateValue(values Mentals) {
+	for key, val := range values {
+		(*ms)[key].Value += val.Value
+	}
 }
 
 // NewMental: make new mental
-func NewMental(t MentalType, values map[string]float32) (Mental, error) {
+func NewMental(t MentalType, values map[string]float32) (*Mental, error) {
 	mental := Mental{Type: t, Value: 0}
 	coefficients := mentalCoefficients[t]
 
 	if coefficients == nil {
-		return mental, fmt.Errorf("%v is not mental type", t)
+		return &mental, fmt.Errorf("%v is not mental type", t)
 	}
 
 	if len(coefficients) != len(values) {
-		return mental, fmt.Errorf("key number is different in mental type %v", t)
+		return &mental, fmt.Errorf("key number is different in mental type %v", t)
 	}
 
 	var totalCoe float32
 	for key, value := range values {
 		if value < 0 || value > 100 {
-			return mental, fmt.Errorf("%v < 0 or %v > 100 in mental type of %v", value, value, t)
+			return &mental, fmt.Errorf("%v < 0 or %v > 100 in mental type of %v", value, value, t)
 		}
 
 		if _, ok := coefficients[key]; !ok {
-			return mental, fmt.Errorf("%v doesn't exist in mental type of %v", key, t)
+			return &mental, fmt.Errorf("%v doesn't exist in mental type of %v", key, t)
 		}
 
 		mental.Value += coefficients[key] * value
@@ -150,14 +154,14 @@ func NewMental(t MentalType, values map[string]float32) (Mental, error) {
 	}
 
 	if totalCoe != 1 {
-		return mental, fmt.Errorf("total coe != 1 in mental type of %v", t)
+		return &mental, fmt.Errorf("total coe != 1 in mental type of %v", t)
 	}
 
-	return mental, nil
+	return &mental, nil
 }
 
-func NewMentalMap(values map[MentalType]map[string]float32) (map[MentalType]Mental, error) {
-	mentalMap := map[MentalType]Mental{}
+func NewMentalMap(values map[MentalType]map[string]float32) (map[MentalType]*Mental, error) {
+	mentalMap := map[MentalType]*Mental{}
 	var err error
 	for key, value := range values {
 		if mentalMap[key], err = NewMental(key, value); err != nil {
