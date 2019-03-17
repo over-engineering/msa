@@ -1,7 +1,5 @@
 package models
 
-// package main
-
 import (
 	"fmt"
 )
@@ -13,13 +11,13 @@ const (
 	Boldness
 	Aggression
 	Predictation
-	Composure
+	Composure // 참착성
 	Concentration
 	Immersion
 	Competition
 	SelfEsteem
 	Confidence
-	Attention
+	Attention // 관종도
 )
 
 func (mType MentalType) String() string {
@@ -104,15 +102,23 @@ var mentalCoefficients = map[MentalType]map[string]float32{
 }
 
 type Mental struct {
-	Type  MentalType `json:"type"`
-	Value float32    `json:"value"` // max value is 100
+	Type              MentalType                  `json:"type"`
+	Value             float32                     `json:"value"` // max value is 100
+	PersonalityImpact map[PersonalityType]float32 `json:"impact"`
+}
+
+// coefficient impact?
+// func (m Mental) UpdateMentalValue(amount float32) {
+// }
+
+func (m Mental) UpdateMentalValue(p PersonalityType, amount float32) {
+	m.Value += amount * m.PersonalityImpact[p]
 }
 
 // NewMental: make new mental
-func NewMental(t MentalType, values map[string]float32) (Mental, error) {
-
+func NewMental(t MentalType, values map[string]float32, pImpact map[PersonalityType]float32) (Mental, error) {
+	mental := Mental{Type: t, Value: 0, PersonalityImpact: pImpact}
 	coefficients := mentalCoefficients[t]
-	mental := Mental{Type: t, Value: 0}
 
 	if coefficients == nil {
 		return mental, fmt.Errorf("%v is not mental type", t)
@@ -143,11 +149,11 @@ func NewMental(t MentalType, values map[string]float32) (Mental, error) {
 	return mental, nil
 }
 
-func NewMentalMap(values map[MentalType]map[string]float32) (map[MentalType]Mental, error) {
+func NewMentalMap(values map[MentalType]map[string]float32, pImpacts map[MentalType]map[PersonalityType]float32) (map[MentalType]Mental, error) {
 	mentalMap := map[MentalType]Mental{}
 	var err error
 	for key, value := range values {
-		if mentalMap[key], err = NewMental(key, value); err != nil {
+		if mentalMap[key], err = NewMental(key, value, pImpacts[key]); err != nil {
 			return mentalMap, err
 		}
 	}
@@ -155,85 +161,17 @@ func NewMentalMap(values map[MentalType]map[string]float32) (map[MentalType]Ment
 	return mentalMap, err
 }
 
-func UpdateMentalMap(mentalMap map[MentalType]Mental, typeToUpdate MentalType, valueToAdd float32) error {
-	m := mentalMap[typeToUpdate]
-	if m.Type != typeToUpdate {
-		return fmt.Errorf("Mental type %v doesn't exist in mental map", typeToUpdate)
-	}
+// func UpdateMentalMap(mentalMap map[MentalType]Mental, typeToUpdate MentalType, valueToAdd float32) error {
+// 	m := mentalMap[typeToUpdate]
+// 	if m.Type != typeToUpdate {
+// 		return fmt.Errorf("Mental type %v doesn't exist in mental map", typeToUpdate)
+// 	}
 
-	if m.Value+valueToAdd < 0 || m.Value+valueToAdd > 100 {
-		return fmt.Errorf("Update value < 0 || > 100")
-	}
+// 	if m.Value+valueToAdd < 0 || m.Value+valueToAdd > 100 {
+// 		return fmt.Errorf("Update value < 0 || > 100")
+// 	}
 
-	m.Value += valueToAdd
+// 	m.Value += valueToAdd
 
-	return nil
-}
-
-func test() {
-	testSet := map[MentalType]map[string]float32{
-		Ambition: map[string]float32{
-			"Example1": 0,
-			"Example2": 40,
-			"Example3": 10,
-		},
-		Boldness: map[string]float32{
-			"Example1": 10,
-			"Example2": 2,
-			"Example3": 3,
-		},
-		Aggression: map[string]float32{
-			"Example1": 100,
-			"Example2": 100,
-			"Example3": 100,
-		},
-		Predictation: map[string]float32{
-			"Example1": 100,
-			"Example2": 100,
-			"Example3": 100,
-		},
-		Composure: map[string]float32{
-			"Example1": 100,
-			"Example2": 100,
-			"Example3": 100,
-		},
-		Concentration: map[string]float32{
-			"Example1": 100,
-			"Example2": 100,
-			"Example3": 100,
-		},
-		Immersion: map[string]float32{
-			"Example1": 100,
-			"Example2": 100,
-			"Example3": 100,
-		},
-		Competition: map[string]float32{
-			"Example1": 100,
-			"Example2": 100,
-			"Example3": 100,
-		},
-		SelfEsteem: map[string]float32{
-			"Example1": 100,
-			"Example2": 100,
-			"Example3": 100,
-		},
-		Confidence: map[string]float32{
-			"Example1": 100,
-			"Example2": 100,
-			"Example3": 100,
-		},
-		Attention: map[string]float32{
-			"Example1": 100,
-			"Example2": 100,
-			"Example3": 100,
-		},
-	}
-
-	mentalMap, err := NewMentalMap(testSet)
-	fmt.Println(mentalMap, err)
-
-}
-
-// func main() {
-// 	test()
+// 	return nil
 // }

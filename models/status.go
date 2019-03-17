@@ -22,17 +22,7 @@ type Status struct {
 	// TODO: Sense
 
 	// Mental related features
-	Ambition      float32 `json:"ambition"`
-	Boldness      float32 `json:"boldness"`
-	Aggression    float32 `json:"aggression"`
-	Predictation  float32 `json:"predictation"`
-	Composure     float32 `json:"composure"` // 참착성
-	Concentration float32 `json:"concentration"`
-	Immersion     float32 `json:"immersion"`
-	Competition   float32 `json:"competition"`
-	SelfEsteem    float32 `json:"selfEsteem"`
-	Confidence    float32 `json:"confidence"`
-	Attention     float32 `json:"attention"` // 관종도
+	Mentals map[MentalType]Mental `json:"mentals"`
 
 	// Intelligence(Gardner의 이론 차용)
 	// 성향 이론
