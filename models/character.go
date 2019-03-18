@@ -17,9 +17,10 @@ type Character struct {
 	Equipments map[EquipmentType]Equipment `json:"equipments"`
 	// TODO: 논의 Equipments map[EquipmentType]UUID
 
-	Finance  Finance  `json:"finance"` // Or maybe Account
-	Contract Contract `json:"contract"`
-	FanInfo  FanInfo  `json:"fan_info"`
+	Goods    map[interface{}]interface{} `json:"goods"`
+	Finance  Finance                     `json:"finance"` // Or maybe Account
+	Contract Contract                    `json:"contract"`
+	FanInfo  FanInfo                     `json:"fan_info"`
 
 	// Character would not have a team. Also, team information
 	// could be shared with other players.

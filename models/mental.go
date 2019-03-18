@@ -44,13 +44,13 @@ func (mType MentalType) String() string {
 	return names[mType]
 }
 
-func CreateMapforPersonality(values map[interface{}]float32) map[interface{}]float32 {
-	mentalMap := map[interface{}]float32{}
-	for i := Ambition; i < Attention; i++ {
-		mentalMap[i] = values[i]
-	}
-	return mentalMap
-}
+// func CreateMapforPersonality(values map[interface{}]float32) map[interface{}]float32 {
+// 	mentalMap := map[interface{}]float32{}
+// 	for i := Ambition; i < Attention; i++ {
+// 		mentalMap[i] = values[i]
+// 	}
+// 	return mentalMap
+// }
 
 // define coefficient of each mental as slice(unexported)
 var mentalCoefficients = map[MentalType]map[string]float32{
