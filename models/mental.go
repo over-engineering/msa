@@ -20,8 +20,10 @@ const (
 	Attention // 관종도
 )
 
+const MentalNum = 11
+
 func (mType MentalType) String() string {
-	names := [11]string{
+	names := [MentalNum]string{
 		"Ambition",
 		"Boldness",
 		"Aggression",
@@ -40,6 +42,14 @@ func (mType MentalType) String() string {
 	}
 
 	return names[mType]
+}
+
+func CreateMapforPersonality(values map[interface{}]float32) map[interface{}]float32 {
+	mentalMap := map[interface{}]float32{}
+	for i := Ambition; i < Attention; i++ {
+		mentalMap[i] = values[i]
+	}
+	return mentalMap
 }
 
 // define coefficient of each mental as slice(unexported)
@@ -101,28 +111,30 @@ var mentalCoefficients = map[MentalType]map[string]float32{
 	},
 }
 
-var PersonalityCoefficients = map[MentalType]map[PersonalityType]float32{}
-
 type Mental struct {
 	Type  MentalType `json:"type"`
 	Value float32    `json:"value"` // max value is 100
 	//PersonalityImpact map[PersonalityType]float32 `json:"impact"`
 }
 
+func (m Mental) ReadPersonality(pTable PersonalityTable, pType PersonalityType) float32 {
+	return pTable[pType][m.Type]
+}
+
 type Mentals map[MentalType]*Mental
 
-// coefficient impact?
-// func (m Mental) UpdateMentalValue(amount float32) {
-// }
-
-// func  UpdateMentalValue(p PersonalityType, amount float32, PersonalityImpact map[PersonalityType]float32) {
-// 	m.Value += amount * PersonalityImpact
-// }
-
-// func (m Mental) UpdateValue(amount float32, p PersonalityType, PersonalityImpact map[PersonalityType]float32) {
-func (ms *Mentals) UpdateValue(values Mentals) {
+func (ms *Mentals) UpdateValue(values Mentals, pTable PersonalityTable, p Personality) {
 	for key, val := range values {
-		(*ms)[key].Value += val.Value
+		coefficient := (*ms)[key].ReadPersonality(pTable, p.Type)
+		val := val.Value*coefficient + (*ms)[key].Value
+		if val < 0 {
+			(*ms)[key].Value = 0
+		} else if val > 100 {
+			(*ms)[key].Value = 100
+		} else {
+			(*ms)[key].Value = val
+		}
+		// (*ms)[key].Value += val.Value * coefficient
 	}
 }
 
@@ -160,8 +172,8 @@ func NewMental(t MentalType, values map[string]float32) (*Mental, error) {
 	return &mental, nil
 }
 
-func NewMentalMap(values map[MentalType]map[string]float32) (map[MentalType]*Mental, error) {
-	mentalMap := map[MentalType]*Mental{}
+func NewMentals(values map[MentalType]map[string]float32) (Mentals, error) {
+	mentalMap := Mentals{}
 	var err error
 	for key, value := range values {
 		if mentalMap[key], err = NewMental(key, value); err != nil {

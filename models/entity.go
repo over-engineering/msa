@@ -8,3 +8,4 @@ type Entity interface {
 	GetEffect()
 	GetContract() Contract
 }
+

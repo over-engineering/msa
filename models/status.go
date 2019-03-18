@@ -4,6 +4,8 @@ import "reflect"
 
 // Status represents all aspects of character's current state.
 type Status struct {
+	// 나이
+	Age Age `json:"health"` // range: 0~
 	// 신체 상태
 	Health  float32               `json:"health"` // range: 0~100
 	Height  float32               `json:"height"`
@@ -30,8 +32,8 @@ type Status struct {
 	// 성향 이론
 	// 성향은 나쁘고 좋은 게 없다. => 성향은 유저의 선택으로 영향을 받고 캐릭터의 행동을 결정 짓는 것 뿐.
 	// 이벤트 관련 주변 연락, 약속 잡히는 빈도, 친구들의 성향.
-	Intelligence map[IntelligenceType]Intelligence `json:"Intelligence"`
-	Personality  Personality                       `json:"personality"`
+	Intelligences Intelligences `json:"Intelligence"`
+	Personality   Personality   `json:"personality"`
 
 	Memory     float32 `json:"memory"`
 	Creativity float32 `json:"creativity"`
@@ -40,8 +42,13 @@ type Status struct {
 func (s *Status) ApplyEffect(es Effects) {
 	for _, e := range es {
 		switch {
+		case e.Target == "Intelligences":
+			s.Intelligences.UpdateValue(e.Value.(map[IntelligenceType]float32))
+		case e.Target == "Personality":
+			s.Personality.UpdateValue(e.Value.(Personality))
 		case e.Target == "Mentals":
-			s.Mentals.UpdateValue(e.Value.(Mentals))
+			s.Mentals.UpdateValue(e.Value.(Mentals), PTable, s.Personality) 
+
 		// case e.Target == "Intelligence":
 		// 	s.Intelligence.UpdateValue(Value.(Intelligence))
 		default:
