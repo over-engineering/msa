@@ -12,7 +12,7 @@ type Character struct {
 	// TODO: Nationality
 	// TODO: user struct
 
-	Status     Status                      `json:"status"`
+	Status     *Status                     `json:"status"`
 	Conditions []Condition                 `json:"conditions"`
 	Equipments map[EquipmentType]Equipment `json:"equipments"`
 	// TODO: 논의 Equipments map[EquipmentType]UUID
@@ -22,6 +22,7 @@ type Character struct {
 	Contract Contract                    `json:"contract"`
 	FanInfo  FanInfo                     `json:"fan_info"`
 
+	Friendships Friendships `json:"friendships"`
 	// Character would not have a team. Also, team information
 	// could be shared with other players.
 	Team *Team `json:"team"`

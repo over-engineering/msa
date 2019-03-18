@@ -124,10 +124,10 @@ func TestCreateStatus(t *testing.T) {
 	}
 	models.PTable.AddPersonalityCoe(PMentalList)
 
-	PrintAll(&status)
+	// PrintStatus(&status)
 	// update
 	UpdateStatus(&status)
-	PrintAll(&status)
+	// PrintStatus(&status)
 }
 
 func UpdateStatus(status *models.Status) {
@@ -148,7 +148,7 @@ func UpdateStatus(status *models.Status) {
 
 }
 
-func PrintAll(status *models.Status) {
+func PrintStatus(status *models.Status) {
 	for i := 0; i < models.IntelligenceNum; i++ {
 		fmt.Println("Intelligence: ", status.Intelligences[models.IntelligenceType(i)])
 	}

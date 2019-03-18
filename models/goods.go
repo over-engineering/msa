@@ -17,7 +17,7 @@ type Goods struct {
 	Brand       string  `json:"brand"`
 	Price       float32 `json:"price"`
 	Duration    float32 `json:"duration"`
-	Description string  `json:"description`
+	Description string  `json:"description"`
 	Effects     Effects `json:"effects"`
 }
 

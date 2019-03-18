@@ -5,7 +5,7 @@ import "reflect"
 // Status represents all aspects of character's current state.
 type Status struct {
 	// 나이
-	Age Age `json:"health"` // range: 0~
+	LifeCycle LifeCycle `json:"life_cycle"` // range: 0~
 	// 신체 상태
 	Health  float32               `json:"health"` // range: 0~100
 	Height  float32               `json:"height"`
@@ -47,7 +47,7 @@ func (s *Status) ApplyEffect(es Effects) {
 		case e.Target == "Personality":
 			s.Personality.UpdateValue(e.Value.(Personality))
 		case e.Target == "Mentals":
-			s.Mentals.UpdateValue(e.Value.(Mentals), PTable, s.Personality) 
+			s.Mentals.UpdateValue(e.Value.(Mentals), PTable, s.Personality)
 
 		// case e.Target == "Intelligence":
 		// 	s.Intelligence.UpdateValue(Value.(Intelligence))

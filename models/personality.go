@@ -28,6 +28,8 @@ const (
 	ENTJ
 )
 
+const PersonalityNum = 16
+
 func (pType PersonalityType) String() string {
 	names := [17]string{
 		"UNKNOWN",
