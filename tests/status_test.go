@@ -89,6 +89,7 @@ func Example() {
 	//
 }
 */
+
 func TestCreateStatus(t *testing.T) {
 	// create status, intelligence, personality, mental
 	status := models.Status{}
@@ -126,27 +127,27 @@ func TestCreateStatus(t *testing.T) {
 
 	// PrintStatus(&status)
 	// update
-	UpdateStatus(&status)
+	// UpdateStatus(&status)
 	// PrintStatus(&status)
 }
 
-func UpdateStatus(status *models.Status) {
+// func UpdateStatus(status *models.Status) {
 
-	es := []models.Effect{
-		// intelligence effects
-		models.Effect{"Intelligences", map[models.IntelligenceType]float32{models.Interpersonal: float32(20)}},
-		models.Effect{"Intelligences", map[models.IntelligenceType]float32{models.Intrapersonal: float32(-20)}},
+// 	es := []models.Effect{
+// 		// intelligence effects
+// 		models.Effect{"Intelligences", map[models.IntelligenceType]float32{models.Interpersonal: float32(20)}},
+// 		models.Effect{"Intelligences", map[models.IntelligenceType]float32{models.Intrapersonal: float32(-20)}},
 
-		// personalilty effects
-		models.Effect{"Personality", models.Personality{Extraversion: 2, Sensing: 3, Thinking: -3, Judging: 20}},
+// 		// personalilty effects
+// 		models.Effect{"Personality", models.Personality{Extraversion: 2, Sensing: 3, Thinking: -3, Judging: 20}},
 
-		// mental effects
-		models.Effect{"Mentals", models.Mentals{models.Ambition: &models.Mental{models.Ambition, float32(33)}}},
-		models.Effect{"Mentals", models.Mentals{models.Competition: &models.Mental{models.Competition, float32(-20)}}},
-	}
-	status.ApplyEffect(es)
+// 		// mental effects
+// 		models.Effect{"Mentals", models.Mentals{models.Ambition: &models.Mental{models.Ambition, float32(33)}}},
+// 		models.Effect{"Mentals", models.Mentals{models.Competition: &models.Mental{models.Competition, float32(-20)}}},
+// 	}
+// 	status.ApplyEffect(es)
 
-}
+// }
 
 func PrintStatus(status *models.Status) {
 	for i := 0; i < models.IntelligenceNum; i++ {

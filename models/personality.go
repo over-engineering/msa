@@ -74,27 +74,6 @@ func (pTable PersonalityTable) AddPersonalityCoe(m [16]map[interface{}]float32) 
 
 var PTable = PersonalityTable{}
 
-// func CreatePersonalityTable(m map[PersonalityType]map[interface{}]float32) PersonalityTable {
-// 	return PersonalityTable{
-// 		ISTJ: m[ISTJ],
-// 		ISFJ: m[ISFJ],
-// 		INFJ: m[INFJ],
-// 		INTJ: m[INTJ],
-// 		ISTP: m[ISTP],
-// 		ISFP: m[ISFP],
-// 		INFP: m[INFP],
-// 		INTP: m[INTP],
-// 		ESTP: m[ESTP],
-// 		ESFP: m[ESFP],
-// 		ENFP: m[ENFP],
-// 		ENTP: m[ENTP],
-// 		ESTJ: m[ESTJ],
-// 		ESFJ: m[ESFJ],
-// 		ENFJ: m[ENFJ],
-// 		ENTJ: m[ENTJ],
-// 	}
-// }
-
 // Personality have its own value, it may not need struct structure.
 type Personality struct {
 	// Value float32 `json:"value"` // value range: 0 ~ 1

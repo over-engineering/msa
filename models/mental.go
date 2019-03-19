@@ -123,9 +123,9 @@ func (m Mental) ReadPersonality(pTable PersonalityTable, pType PersonalityType) 
 
 type Mentals map[MentalType]*Mental
 
-func (ms *Mentals) UpdateValue(values Mentals, pTable PersonalityTable, p Personality) {
+func (ms *Mentals) UpdateValue(values Mentals, p Personality) {
 	for key, val := range values {
-		coefficient := (*ms)[key].ReadPersonality(pTable, p.Type)
+		coefficient := (*ms)[key].ReadPersonality(PTable, p.Type)
 		val := val.Value*coefficient + (*ms)[key].Value
 		if val < 0 {
 			(*ms)[key].Value = 0
@@ -133,7 +133,9 @@ func (ms *Mentals) UpdateValue(values Mentals, pTable PersonalityTable, p Person
 			(*ms)[key].Value = 100
 		} else {
 			(*ms)[key].Value = val
+			// fmt.Println(pTable, p.Type)
 		}
+		fmt.Println("New mental value: ", key, (*ms)[key].Value)
 		// (*ms)[key].Value += val.Value * coefficient
 	}
 }

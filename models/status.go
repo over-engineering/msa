@@ -47,8 +47,7 @@ func (s *Status) ApplyEffect(es Effects) {
 		case e.Target == "Personality":
 			s.Personality.UpdateValue(e.Value.(Personality))
 		case e.Target == "Mentals":
-			s.Mentals.UpdateValue(e.Value.(Mentals), PTable, s.Personality)
-
+			s.Mentals.UpdateValue(e.Value.(Mentals), s.Personality)
 		// case e.Target == "Intelligence":
 		// 	s.Intelligence.UpdateValue(Value.(Intelligence))
 		default:

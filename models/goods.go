@@ -2,12 +2,14 @@ package models
 
 // Goods interface covers all kinds of goods
 // type Goods interface {
-type Getter interface {
+type GoodsIt interface {
 	GetID() UID
 	GetName() string
-	GetEffect()
+	// GetEffect()
 	GetDuration()
 	GetPrice() float32
+	RegisterEffects(c *Character)
+	ApplyEffects()
 }
 
 // base goods struct
@@ -21,16 +23,24 @@ type Goods struct {
 	Effects     Effects `json:"effects"`
 }
 
-func (g Goods) GetID() UID {
+func (g *Goods) GetID() UID {
 	return g.ID
 }
 
-func (g Goods) GetName() string {
+func (g *Goods) GetName() string {
 	return g.Name
 }
 
-func (g Goods) GetPrice() float32 {
+func (g *Goods) GetPrice() float32 {
 	return g.Price
+}
+
+func (g *Goods) GetDuration() {
+
+}
+
+func (g *Goods) ApplyEffects() {
+	g.Effects.ApplyEffects()
 }
 
 type Camera struct {
@@ -40,7 +50,7 @@ type Camera struct {
 type SmartPhone struct {
 	Goods           // embedded struct
 	Payment float32 `json:"plan"` // 월 요금제
-	Camera  Camera  `json:"camera`
+	Camera  *Camera `json:"camera`
 	Memory  float32 `json:memory`
 	Battery float32 `json:battery`
 	// Duration
@@ -62,6 +72,28 @@ type SmartPhone struct {
 
 func (s SmartPhone) GetPayment() float32 {
 	return s.Payment
+}
+
+func (s *SmartPhone) RegisterEffects(c *Character) {
+	s.Goods.Effects = Effects{
+		Effect{
+			Target: "UpdateMentals",
+			Value:  c.Status.Mentals.UpdateValue,
+			Parameters: []interface{}{
+				Mentals{
+					Confidence: &Mental{Confidence, float32(20)},
+					Ambition:   &Mental{Ambition, float32(5)},
+				},
+				c.Status.Personality,
+			},
+		},
+		Effect{
+			Target:     "AddAllFriendships",
+			Value:      AddAllFriendships,
+			Parameters: []interface{}{c, float32(10)},
+		},
+	}
+	// c.Friendships
 }
 
 type Car struct {

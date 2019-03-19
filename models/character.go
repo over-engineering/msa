@@ -1,6 +1,9 @@
 package models
 
-import "strings"
+import (
+	"fmt"
+	"strings"
+)
 
 // Character represents the game character belongs to user
 // Things could be referencing with unique IDs.
@@ -17,10 +20,10 @@ type Character struct {
 	Equipments map[EquipmentType]Equipment `json:"equipments"`
 	// TODO: 논의 Equipments map[EquipmentType]UUID
 
-	Goods    map[interface{}]interface{} `json:"goods"`
-	Finance  Finance                     `json:"finance"` // Or maybe Account
-	Contract Contract                    `json:"contract"`
-	FanInfo  FanInfo                     `json:"fan_info"`
+	Goods    map[GoodsIt]*GoodsIt `json:"goods"`
+	Finance  Finance              `json:"finance"` // Or maybe Account
+	Contract Contract             `json:"contract"`
+	FanInfo  FanInfo              `json:"fan_info"`
 
 	Friendships Friendships `json:"friendships"`
 	// Character would not have a team. Also, team information
@@ -54,4 +57,15 @@ func (c *Character) CurrentTeam() *Team {
 func (c *Character) FullName() string {
 	// TODO: user's  linguistic setting check
 	return strings.Join([]string{c.FirstName, c.LastName}, " ")
+}
+
+func (c *Character) BuyGoods(goods GoodsIt) {
+	fmt.Println("Buy goods")
+	// switch v := goods.(type) {
+	// case SmartPhone:
+	goods.RegisterEffects(c)
+
+	// default:
+	// }
+	c.Goods[goods] = &goods
 }
