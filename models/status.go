@@ -14,6 +14,10 @@ type Status struct {
 	Muscles map[MuscleType]Muscle `json:"muscles"`
 	Fat     map[FatType]Fat       `json:"fat"`
 
+	// 위치 옮겨야 함
+	KcKgTranslationRate float32 `json:"kc_kg_translate_rate"`
+	ConsumedKcal        float32
+
 	// 수치적으로 계산이 들어갈 때 필요한 파라미터들
 	Resilience float32 `json:"resilience"`
 	Cardio     float32 `json:"cardio"`
@@ -39,7 +43,7 @@ type Status struct {
 	Creativity float32 `json:"creativity"`
 }
 
-func (s *Status) ApplyEffect(es Effects) {
+func (s *Status) ApplyEffects(es Effects) {
 	for _, e := range es {
 		switch {
 		case e.Target == "Intelligences":

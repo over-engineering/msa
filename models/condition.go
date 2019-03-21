@@ -8,4 +8,4 @@ type Condition struct {
 	Duration *time.Time `json:"duration"`
 }
 
-
+type Conditions []Condition

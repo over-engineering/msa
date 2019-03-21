@@ -2,60 +2,19 @@ package tests
 
 import (
 	"fmt"
-	"testing"
+	"reflect"
 
 	"github.com/over-engineering/msa/models"
 )
 
-func TestCraracter(t *testing.T) {
+// func TestCraracter(t *testing.T) {
+func Tmp() {
 	CreateMentalPTable()
-	c1 := &models.Character{
-		ID:        0,
-		FirstName: "chan",
-		LastName:  "park",
-		Job:       models.JOB_NONE,
-		Status:    models.StarterStatus(),
-		// Conditions: ,
-		// Equipments: ,
-		Goods:   map[models.GoodsIt]*models.GoodsIt{},
-		Finance: models.Finance{Balance: 500, TaxInfo: models.TaxInfo{AnnualIncome: 0}},
-		// Contract: ,
-		// FanInfo: ,
-		Friendships: models.Friendships{},
-		// Team: ,
-	}
 
-	c2 := &models.Character{
-		ID:        1,
-		FirstName: "junmo",
-		LastName:  "park",
-		Job:       models.JOB_SOCCER_PLAYER,
-		Status:    models.StarterStatus(),
-		// Conditions: ,
-		// Equipments: ,
-		Goods:   map[models.GoodsIt]*models.GoodsIt{},
-		Finance: models.Finance{Balance: 500, TaxInfo: models.TaxInfo{AnnualIncome: 0}},
-		// Contract: ,
-		// FanInfo: ,
-		Friendships: models.Friendships{},
-		// Team: ,
-	}
-
-	c3 := &models.Character{
-		ID:        2,
-		FirstName: "changhyun",
-		LastName:  "park",
-		Job:       models.JOB_BASEBALL_PLAYER,
-		Status:    models.StarterStatus(),
-		// Conditions: ,
-		// Equipments: ,
-		Goods:   map[models.GoodsIt]*models.GoodsIt{},
-		Finance: models.Finance{Balance: 500, TaxInfo: models.TaxInfo{AnnualIncome: 0}}, // FanInfo: ,
-		// Contract: ,
-		// FanInfo: ,
-		Friendships: models.Friendships{},
-		// Team: ,
-	}
+	cList := CreateCharacters()
+	c1 := cList[0]
+	c2 := cList[1]
+	c3 := cList[2]
 
 	// add freindship
 	models.AddFriendships(c1, c2, 10)
@@ -80,10 +39,89 @@ func TestCraracter(t *testing.T) {
 	PrintCharacter(c3)
 }
 
+func CreateCharacters() []*models.Character {
+	c1 := &models.Character{
+		ID:        0,
+		FirstName: "chan",
+		LastName:  "park",
+		Job:       models.JOB_NONE,
+		Status:    models.StarterStatus(),
+		// Conditions: ,
+		// Equipments: ,
+		// Goods:   map[models.GoodsIt]models.GoodsIt{},
+		Goods: []map[interface{}]interface{}{
+			models.PhoneIndex: map[interface{}]interface{}{},
+			models.CarIndex:   map[interface{}]interface{}{},
+			models.HouseIndex: map[interface{}]interface{}{},
+			models.FoodIndex:  map[interface{}]interface{}{},
+		},
+		Finance: models.Finance{Balance: 500, TaxInfo: models.TaxInfo{AnnualIncome: 0}},
+		// Contract: ,
+		// FanInfo: ,
+		Friendships: models.Friendships{},
+		// Team: ,
+	}
+
+	c2 := &models.Character{
+		ID:        1,
+		FirstName: "junmo",
+		LastName:  "park",
+		Job:       models.JOB_SOCCER_PLAYER,
+		Status:    models.StarterStatus(),
+		// Conditions: ,
+		// Equipments: ,
+		// Goods:   map[models.GoodsIt]models.GoodsIt{},
+		Goods: []map[interface{}]interface{}{
+			models.PhoneIndex: map[interface{}]interface{}{},
+			models.CarIndex:   map[interface{}]interface{}{},
+			models.HouseIndex: map[interface{}]interface{}{},
+			models.FoodIndex:  map[interface{}]interface{}{},
+		},
+		Finance: models.Finance{Balance: 500, TaxInfo: models.TaxInfo{AnnualIncome: 0}},
+		// Contract: ,
+		// FanInfo: ,
+		Friendships: models.Friendships{},
+		// Team: ,
+	}
+
+	c3 := &models.Character{
+		ID:        2,
+		FirstName: "changhyun",
+		LastName:  "park",
+		Job:       models.JOB_BASEBALL_PLAYER,
+		Status:    models.StarterStatus(),
+		// Conditions: ,
+		// Equipments: ,
+		// Goods:   map[models.GoodsIt]models.GoodsIt{},
+		Goods: []map[interface{}]interface{}{
+			models.PhoneIndex: map[interface{}]interface{}{},
+			models.CarIndex:   map[interface{}]interface{}{},
+			models.HouseIndex: map[interface{}]interface{}{},
+			models.FoodIndex:  map[interface{}]interface{}{},
+		},
+		Finance: models.Finance{Balance: 500, TaxInfo: models.TaxInfo{AnnualIncome: 0}}, // FanInfo: ,
+		// Contract: ,
+		// FanInfo: ,
+		Friendships: models.Friendships{},
+		// Team: ,
+	}
+
+	return []*models.Character{c1, c2, c3}
+}
+
 func PrintCharacter(c *models.Character) {
 	fmt.Println(c.FirstName, c.LastName)
 
-	fmt.Println("Status: ")
+	// v := reflect.ValueOf(*c)
+	fields := reflect.TypeOf(*c)
+	values := reflect.ValueOf(*c)
+	for i := 0; i < fields.NumField(); i++ {
+		field := fields.Field(i)
+		value := values.Field(i)
+		fmt.Print(field.Name, ": ", value, "\n")
+	}
+
+	fmt.Println("Status:")
 	PrintStatus(c.Status)
 
 	fmt.Println("Friendships of ID", c.ID)
@@ -96,11 +134,11 @@ func PrintCharacter(c *models.Character) {
 func BuyGoods(c *models.Character) {
 	smartPhone := &models.SmartPhone{
 		Goods: models.Goods{
-			ID:          10,
-			Name:        "Galaxy S10",
-			Brand:       "Samsung",
-			Price:       100,
-			Duration:    1000, // day
+			ID:    10,
+			Name:  "Galaxy S10",
+			Brand: "Samsung",
+			Price: 100,
+			// Duration:    1000, // day
 			Description: "Samsung Galaxy S10 is a line of Android smartphones manufactured by Samsung Electronics. The Galaxy S10 series is a celebratory series of the 10th anniversary of the Samsung Galaxy S flagship line. Unveiled during a press event, Samsung Galaxy Unpacked 2019 on February 20, 2019, they started shipping on March 8, 2019, and in some regions such as Australia and the United States, they started shipping them on March 6, 2019.",
 			// Effects: models.Effects{
 			// 	models.Effect{"Mentals", models.Mentals{
@@ -115,8 +153,13 @@ func BuyGoods(c *models.Character) {
 		Battery: 3400, // mAh
 	}
 
-	c.BuyGoods(smartPhone)
-	fmt.Println("My goods map: ", *c.Goods[smartPhone])
+	act := models.ActivityManager{
+		Character: c,
+		// Facility:
+		// Job:
+	}
+	act.BuyGoods(smartPhone)
+	// fmt.Println("My goods map: ", c.Goods[smartPhone])
 	smartPhone.ApplyEffects()
 
 }
