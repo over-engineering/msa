@@ -1,6 +1,8 @@
 package models
 
-import "reflect"
+import (
+	"reflect"
+)
 
 // Status represents all aspects of character's current state.
 type Status struct {
@@ -13,6 +15,10 @@ type Status struct {
 	Joints  map[JointType]Joint   `json:"joints"`
 	Muscles map[MuscleType]Muscle `json:"muscles"`
 	Fat     map[FatType]Fat       `json:"fat"`
+
+	// 위치 옮겨야 함
+	KcKgTranslationRate float32 `json:"kc_kg_translate_rate"`
+	ConsumedKcal        float32
 
 	// 수치적으로 계산이 들어갈 때 필요한 파라미터들
 	Resilience float32 `json:"resilience"`
@@ -39,7 +45,7 @@ type Status struct {
 	Creativity float32 `json:"creativity"`
 }
 
-func (s *Status) ApplyEffect(es Effects) {
+func (s *Status) ApplyEffects(es Effects) {
 	for _, e := range es {
 		switch {
 		case e.Target == "Intelligences":
@@ -51,8 +57,19 @@ func (s *Status) ApplyEffect(es Effects) {
 		// case e.Target == "Intelligence":
 		// 	s.Intelligence.UpdateValue(Value.(Intelligence))
 		default:
-			f := reflect.ValueOf(s).Elem().FieldByName(e.Target)
-			f.SetFloat(f.Float() + e.Value.(float64))
+
+			// f := reflect.ValueOf(s).Elem().FieldByName(e.Target)
+			v := reflect.ValueOf(s).Elem().FieldByName(e.Target)
+			u := v.Interface().(float32)
+			v.SetFloat(float64(u + e.Value.(float32)))
+			// p := u &
+			// *u += e.Value.(float32)
+			// fmt.Println(e.Target, u, e)
+
+			// u += t
+			// fmt.Println(u)
+			// f.SetFloat(f.Float() + e.Value.(float64))
+
 		}
 	}
 }
