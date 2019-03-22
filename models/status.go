@@ -1,6 +1,8 @@
 package models
 
-import "reflect"
+import (
+	"reflect"
+)
 
 // Status represents all aspects of character's current state.
 type Status struct {
@@ -55,8 +57,19 @@ func (s *Status) ApplyEffects(es Effects) {
 		// case e.Target == "Intelligence":
 		// 	s.Intelligence.UpdateValue(Value.(Intelligence))
 		default:
-			f := reflect.ValueOf(s).Elem().FieldByName(e.Target)
-			f.SetFloat(f.Float() + e.Value.(float64))
+
+			// f := reflect.ValueOf(s).Elem().FieldByName(e.Target)
+			v := reflect.ValueOf(s).Elem().FieldByName(e.Target)
+			u := v.Interface().(float32)
+			v.SetFloat(float64(u + e.Value.(float32)))
+			// p := u &
+			// *u += e.Value.(float32)
+			// fmt.Println(e.Target, u, e)
+
+			// u += t
+			// fmt.Println(u)
+			// f.SetFloat(f.Float() + e.Value.(float64))
+
 		}
 	}
 }

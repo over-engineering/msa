@@ -62,15 +62,17 @@ func StarterStatus() *Status {
 		Height:    randList[3] + 170,
 		Weight:    randList[4] + 70,
 		// Joints
-		// Muscles
-		// Fat
-		// Resilience
-		// Cardio
-		// Charm
-		// Balance
-		// Decision
-		// Agility
-		// Flexibility
+		// Muscles: 50
+		// Fat: 50
+		KcKgTranslationRate: 0.8 + randList[24]/100,
+		ConsumedKcal:        0,
+		Resilience:          randList[4] + 50,
+		Cardio:              randList[4] + 50,
+		Charm:               randList[4] + 50,
+		Balance:             randList[4] + 50,
+		Decision:            randList[4] + 50,
+		Agility:             randList[4] + 50,
+		Flexibility:         randList[4] + 50,
 		Mentals: Mentals{
 			Ambition:      &Mental{Type: Ambition, Value: randList[5] + 50},
 			Boldness:      &Mental{Type: Boldness, Value: randList[6] + 50},

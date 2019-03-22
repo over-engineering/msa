@@ -1,69 +1,78 @@
 package models
 
-type GoodsIndex int
+type GoodsType UID
 
 const (
-	PhoneIndex GoodsIndex = iota
-	CarIndex
-	HouseIndex
-	FoodIndex
+	PhoneType GoodsType = iota
+	CarType
+	HouseType
+	FoodType
 )
 
 // Goods interface covers all kinds of goods
 // type Goods interface {
-type GoodsIt interface {
-	GetID() interface{}
+type GoodsHelper interface {
+	GetID() UID
+	GetGoodsType() GoodsType
 	GetName() string
-	// GetEffect()
-	// GetDuration()
-	GetBrand() string
 	GetPrice() float32
+	SetPrice(p float32)
+}
 
-	// RegisterEffects(s *Status)
-	// ApplyEffects()
-	RegisterGoods(c *Character)
-	UnRegisterGoods(c *Character)
+func GetGoods(goodsList [][]GoodsHelper, goodsType GoodsType, goodsIndex int) GoodsHelper {
+	return goodsList[goodsType][goodsIndex]
+}
+
+func RegisterGoods(goodsList [][]GoodsHelper, g GoodsHelper) {
+	goodsList[g.GetGoodsType()] = append(goodsList[g.GetGoodsType()], g)
+}
+
+func UnRegisterGoods(goodsList [][]GoodsHelper, goodsType GoodsType, index int) {
+	goodsList[goodsType] = append(goodsList[goodsType][:index], goodsList[goodsType][index+1:]...)
 }
 
 // base goods struct
 type Goods struct {
-	ID    interface{} `json:"id"`
-	Name  string      `json:"name"`
-	Brand string      `json:"brand"`
-	Price float32     `json:"price"`
-	// Duration    float32 `json:"duration"`
-	Description string  `json:"description"`
-	Effects     Effects `json:"effects"`
+	ID          UID       `json:"id"`
+	GoodsType   GoodsType `json:"goods_type"`
+	Name        string    `json:"name"`
+	Brand       string    `json:"brand"`
+	Price       float32   `json:"price"`
+	Description string    `json:"description"`
 }
 
-func (g Goods) GetID() interface{} {
+func (g *Goods) GetID() UID {
 	return g.ID
 }
 
-func (g Goods) GetName() string {
+func (g *Goods) GetGoodsType() GoodsType {
+	return g.GoodsType
+}
+
+func (g *Goods) GetName() string {
 	return g.Name
 }
 
-func (g Goods) GetPrice() float32 {
+func (g *Goods) GetPrice() float32 {
 	return g.Price
 }
 
-func (g Goods) GetBrand() string {
-	return g.Brand
+func (g *Goods) SetPrice(p float32) {
+	g.Price = p
 }
 
-// func (g Goods) ApplyEffects() {
-// 	g.Effects.ApplyEffects()
-// }
+func (g *Goods) GetBrand() string {
+	return g.Brand
+}
 
 type Camera struct {
 	Goods
 }
 
-type SmartPhoneID int
+// type SmartPhoneID int
 
 const (
-	Galaxy SmartPhoneID = iota
+	Galaxy UID = 100
 )
 
 type SmartPhone struct {
@@ -92,23 +101,9 @@ func (s *SmartPhone) Call(st *Status) {
 
 }
 
-func (s *SmartPhone) RegisterGoods(c *Character) {
-	c.Goods[PhoneIndex][s.ID] = s
-}
-
-func (s *SmartPhone) UnRegisterGoods(c *Character) {
-	c.Goods[PhoneIndex][s.ID] = nil
-}
-
 type Car struct {
 	Goods
 	HousePower float32 `json:house_power`
-}
-
-func (car *Car) RegisterGoods(c *Character) {
-}
-
-func (car *Car) UnRegisterGoods(cr *Character) {
 }
 
 func (car *Car) Ride(st *Status) {
@@ -133,25 +128,18 @@ type House struct {
 	ParkingSpace bool     `json:parking_space`
 }
 
-// type FoodHelper interface {
-// 	Eat()
-// 	GetExpirationDate()
-// }
-
-type FoodID int
-
 const (
-	AppleID FoodID = iota
+	AppleID UID = 1000
 	OrangeID
 	EnergyDrinkID
 )
 
 type Food struct {
-	Goods
+	*Goods
 	Flavor         float32
 	Kcal           float32 // kcal
 	Mass           float32 // kg
-	ExpirationDate float32
+	ExpirationDate int
 }
 
 const (
@@ -159,17 +147,17 @@ const (
 	OrangeKcalPerMass
 )
 
-func NewFood(id FoodID, name string, price float32, mass float32) *Food {
+func NewFood(id UID, name string, price float32, flavor float32, mass float32) *Food {
 	return &Food{
-		Goods: Goods{
-			ID:   id,
-			Name: name,
+		Goods: &Goods{
+			ID:        id,
+			GoodsType: FoodType,
+			Name:      name,
 			// Brand: ,
-			Price: 100,
+			Price: price,
 			// Description: ,
-			// Effects     ,
 		},
-		Flavor:         50,
+		Flavor:         flavor,
 		Kcal:           AppleKcalPerMass * mass,
 		Mass:           mass,
 		ExpirationDate: 100,
@@ -186,18 +174,6 @@ func (f *Food) Eat(st *Status) {
 		})
 }
 
-func (f *Food) RegisterGoods(c *Character) {
-
-	// if c.Goods[FoodIndex] == nil {
-	// 	c.Goods[FoodIndex] = make(map[interface{}]interface{})
-	// }
-	c.Goods[FoodIndex][f.ID] = f
-}
-
-func (f *Food) UnRegisterGoods(c *Character) {
-	c.Goods[FoodIndex][f.ID] = nil
-}
-
-func (f *Food) GetExpirationDate() float32 {
+func (f *Food) GetExpirationDate() int {
 	return f.ExpirationDate
 }

@@ -8,7 +8,7 @@ import (
 )
 
 // func TestCraracter(t *testing.T) {
-func Tmp() {
+func Tmp2() {
 	CreateMentalPTable()
 
 	cList := CreateCharacters()
@@ -48,12 +48,12 @@ func CreateCharacters() []*models.Character {
 		Status:    models.StarterStatus(),
 		// Conditions: ,
 		// Equipments: ,
-		// Goods:   map[models.GoodsIt]models.GoodsIt{},
-		Goods: []map[interface{}]interface{}{
-			models.PhoneIndex: map[interface{}]interface{}{},
-			models.CarIndex:   map[interface{}]interface{}{},
-			models.HouseIndex: map[interface{}]interface{}{},
-			models.FoodIndex:  map[interface{}]interface{}{},
+		// Goods:   map[models.GoodsHelper]models.GoodsHelper{},
+		Goods: [][]models.GoodsHelper{
+			models.PhoneType: []models.GoodsHelper{},
+			models.CarType:   []models.GoodsHelper{},
+			models.HouseType: []models.GoodsHelper{},
+			models.FoodType:  []models.GoodsHelper{},
 		},
 		Finance: models.Finance{Balance: 500, TaxInfo: models.TaxInfo{AnnualIncome: 0}},
 		// Contract: ,
@@ -70,12 +70,12 @@ func CreateCharacters() []*models.Character {
 		Status:    models.StarterStatus(),
 		// Conditions: ,
 		// Equipments: ,
-		// Goods:   map[models.GoodsIt]models.GoodsIt{},
-		Goods: []map[interface{}]interface{}{
-			models.PhoneIndex: map[interface{}]interface{}{},
-			models.CarIndex:   map[interface{}]interface{}{},
-			models.HouseIndex: map[interface{}]interface{}{},
-			models.FoodIndex:  map[interface{}]interface{}{},
+		// Goods:   map[models.GoodsHelper]models.GoodsHelper{},
+		Goods: [][]models.GoodsHelper{
+			models.PhoneType: []models.GoodsHelper{},
+			models.CarType:   []models.GoodsHelper{},
+			models.HouseType: []models.GoodsHelper{},
+			models.FoodType:  []models.GoodsHelper{},
 		},
 		Finance: models.Finance{Balance: 500, TaxInfo: models.TaxInfo{AnnualIncome: 0}},
 		// Contract: ,
@@ -92,12 +92,12 @@ func CreateCharacters() []*models.Character {
 		Status:    models.StarterStatus(),
 		// Conditions: ,
 		// Equipments: ,
-		// Goods:   map[models.GoodsIt]models.GoodsIt{},
-		Goods: []map[interface{}]interface{}{
-			models.PhoneIndex: map[interface{}]interface{}{},
-			models.CarIndex:   map[interface{}]interface{}{},
-			models.HouseIndex: map[interface{}]interface{}{},
-			models.FoodIndex:  map[interface{}]interface{}{},
+		// Goods:   map[models.GoodsHelper]models.GoodsHelper{},
+		Goods: [][]models.GoodsHelper{
+			models.PhoneType: []models.GoodsHelper{},
+			models.CarType:   []models.GoodsHelper{},
+			models.HouseType: []models.GoodsHelper{},
+			models.FoodType:  []models.GoodsHelper{},
 		},
 		Finance: models.Finance{Balance: 500, TaxInfo: models.TaxInfo{AnnualIncome: 0}}, // FanInfo: ,
 		// Contract: ,
@@ -132,35 +132,35 @@ func PrintCharacter(c *models.Character) {
 }
 
 func BuyGoods(c *models.Character) {
-	smartPhone := &models.SmartPhone{
-		Goods: models.Goods{
-			ID:    10,
-			Name:  "Galaxy S10",
-			Brand: "Samsung",
-			Price: 100,
-			// Duration:    1000, // day
-			Description: "Samsung Galaxy S10 is a line of Android smartphones manufactured by Samsung Electronics. The Galaxy S10 series is a celebratory series of the 10th anniversary of the Samsung Galaxy S flagship line. Unveiled during a press event, Samsung Galaxy Unpacked 2019 on February 20, 2019, they started shipping on March 8, 2019, and in some regions such as Australia and the United States, they started shipping them on March 6, 2019.",
-			// Effects: models.Effects{
-			// 	models.Effect{"Mentals", models.Mentals{
-			// 		models.Confidence: &models.Mental{models.Confidence, float32(20)},
-			// 		models.Ambition:   &models.Mental{models.Ambition, float32(5)},
-			// 	},
-			// 		models.Effect{"Friendship", models.AddFriendships()},
-			// 	}},
-		},
-		Payment: 10,
-		Memory:  8,    // GB
-		Battery: 3400, // mAh
-	}
+	// smartPhone := &models.SmartPhone{
+	// 	Goods: models.Goods{
+	// 		ID:    10,
+	// 		Name:  "Galaxy S10",
+	// 		Brand: "Samsung",
+	// 		Price: 100,
+	// 		// Duration:    1000, // day
+	// 		Description: "Samsung Galaxy S10 is a line of Android smartphones manufactured by Samsung Electronics. The Galaxy S10 series is a celebratory series of the 10th anniversary of the Samsung Galaxy S flagship line. Unveiled during a press event, Samsung Galaxy Unpacked 2019 on February 20, 2019, they started shipping on March 8, 2019, and in some regions such as Australia and the United States, they started shipping them on March 6, 2019.",
+	// 		// Effects: models.Effects{
+	// 		// 	models.Effect{"Mentals", models.Mentals{
+	// 		// 		models.Confidence: &models.Mental{models.Confidence, float32(20)},
+	// 		// 		models.Ambition:   &models.Mental{models.Ambition, float32(5)},
+	// 		// 	},
+	// 		// 		models.Effect{"Friendship", models.AddFriendships()},
+	// 		// 	}},
+	// 	},
+	// 	Payment: 10,
+	// 	Memory:  8,    // GB
+	// 	Battery: 3400, // mAh
+	// }
 
-	act := models.ActivityManager{
-		Character: c,
-		// Facility:
-		// Job:
-	}
-	act.BuyGoods(smartPhone)
+	// act := models.ActivityManager{
+	// 	Character: c,
+	// 	// Facility:
+	// 	// Job:
+	// }
+	// act.BuyGoods(smartPhone)
 	// fmt.Println("My goods map: ", c.Goods[smartPhone])
-	smartPhone.ApplyEffects()
+	// smartPhone.ApplyEffects()
 
 }
 

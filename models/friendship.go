@@ -50,7 +50,9 @@ func (f *Friendship) AddFriendship(sourcePs PersonalityType, value float32) {
 }
 
 func AddFriendships(obj1 interface{}, obj2 interface{}, value float32) {
+	// func AddFriendships(obj1 interface{}, id UID, value float32) {
 	var id1 UID
+	// id2 := id
 	var id2 UID
 	var ps1 PersonalityType
 	var ps2 PersonalityType
@@ -67,15 +69,15 @@ func AddFriendships(obj1 interface{}, obj2 interface{}, value float32) {
 
 	}
 
-	switch v := obj2.(type) {
-	case *Character:
-		id2 = UID(v.ID)
-		ps2 = v.Status.Personality.Type
-		fs2 = v.Friendships
-	case *Entity:
-	default:
+	// switch v := obj2.(type) {
+	// case *Character:
+	// 	id2 = UID(v.ID)
+	// 	ps2 = v.Status.Personality.Type
+	// 	fs2 = v.Friendships
+	// case *Entity:
+	// default:
 
-	}
+	// }
 
 	if _, ok := fs1[id2]; ok {
 		fs1[id2].AddFriendship(ps1, value)

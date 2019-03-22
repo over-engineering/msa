@@ -21,11 +21,14 @@ type Character struct {
 	Equipments map[EquipmentType]Equipment `json:"equipments"`
 	// TODO: 논의 Equipments map[EquipmentType]UUID
 
-	// Goods    map[GoodsIt]GoodsIt `json:"goods"`
-	Goods    []map[interface{}]interface{} `json:"goods"`
-	Finance  Finance                       `json:"finance"` // Or maybe Account
-	Contract Contract                      `json:"contract"`
-	FanInfo  FanInfo                       `json:"fan_info"`
+	// Goods []map[GoodsHelper]GoodsHelper `json:"goods"`
+	// Goods    []map[interface{}]interface{} `json:"goods"`
+	// Goods    [][]GoodsHelper `json:"goods"`
+	// Goods    []map[UID]GoodsHelper `json:"goods"`
+	Goods    [][]GoodsHelper `json:"goods"`
+	Finance  Finance         `json:"finance"` // Or maybe Account
+	Contract Contract        `json:"contract"`
+	FanInfo  FanInfo         `json:"fan_info"`
 
 	Friendships Friendships `json:"friendships"`
 	// Character would not have a team. Also, team information
