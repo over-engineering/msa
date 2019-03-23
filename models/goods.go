@@ -1,6 +1,6 @@
 package models
 
-type GoodsType UID
+type GoodsType Type
 
 const (
 	PhoneType GoodsType = iota
@@ -72,7 +72,7 @@ type Camera struct {
 // type SmartPhoneID int
 
 const (
-	Galaxy UID = 100
+	Galaxy UID = "Phone#001"
 )
 
 type SmartPhone struct {
@@ -129,9 +129,9 @@ type House struct {
 }
 
 const (
-	AppleID UID = 1000
-	OrangeID
-	EnergyDrinkID
+	AppleID       UID = "Food#001"
+	OrangeID          = "Food#002"
+	EnergyDrinkID     = "Food#003"
 )
 
 type Food struct {

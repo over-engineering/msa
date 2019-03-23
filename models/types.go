@@ -4,4 +4,4 @@ package models
 type Type int
 
 // UID represents the unique ID for various types.
-type UID int
+type UID string

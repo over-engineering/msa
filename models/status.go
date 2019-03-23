@@ -7,7 +7,7 @@ import (
 // Status represents all aspects of character's current state.
 type Status struct {
 	// 나이
-	LifeCycle LifeCycle `json:"life_cycle"` // range: 0~
+	LifeCycle `json:"life_cycle"` // range: 0~
 	// 신체 상태
 	Health  float32               `json:"health"` // range: 0~100
 	Height  float32               `json:"height"`
@@ -45,6 +45,7 @@ type Status struct {
 	Creativity float32 `json:"creativity"`
 }
 
+// ApplyEffects apply effects to status one by one.
 func (s *Status) ApplyEffects(es Effects) {
 	for _, e := range es {
 		switch {

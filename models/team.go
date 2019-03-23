@@ -1,35 +1,71 @@
 package models
 
+import "errors"
+
 // Team TBD
 // We have to consider how to efficiently reflect user's
 // own experience with globally fixed one. For example,
 // the squad of teams, their winning history etc.
-type Team interface {
-	UID() UID
-	Squad() []Entity
-	GetCaptain() Entity
-	SelectCaptain() // 게임마다 스쿼드가 변화가 생기면 새로 그 경기의 주장을 뽑아서 임명해야 한다.
-	GetStrategy() Strategy
-	MainPlace() Facility
-	BestSquad() []Entity // 전략 및 스쿼드 구성원들 정보를 통해 베스트 스쿼드를 짜는 로직.
-	GetManager() Entity
-	Finance()
-	StarIndex() float32 // StartIndex range: 0~5
-	History() []History
+type Team struct {
+	ID       UID       `json:"id"`
+	Name     string    `json:"name"`
+	Balance  float32   `json:"balance"` // Finance 관련 된 interface로 바꿀 수 있을 듯.
+	History  []History `json:"history"`
+	StarRate float32   `json:"star_rate"`
+	// Nation
 }
 
-type Strategy interface {
+func makeNewTeam(id UID, name string, balance, starRate float32, history []History) *Team {
+	return &Team{
+		ID:       id,
+		Name:     name,
+		Balance:  balance,
+		StarRate: starRate,
+		History:  history,
+	}
 }
 
-type SoccerStrategy struct {
+// Pay pays the amount of money from its balance
+func (t *Team) Pay(amount float32) error {
+	if t.Balance < amount {
+		return errors.New("not enough balance for this entity")
+	}
+	t.Balance -= amount
+	return nil
 }
 
-type SoccerTeam struct {
-	ID       UID            `json:"id"`
-	Members  []Entity       `json:"members"`
-	Manager  Entity         `json:"manager"`
-	Captain  Entity         `json:"captain"`
-	Stadium  Stadium        `json:"stadium"`
-	Strategy SoccerStrategy `json:"strategy"`
+// Paid increases the amount of money in team's balance.
+func (t *Team) Paid(amount float32) error {
+	t.Balance += amount
+	return nil
+}
+
+// GetName returns Team's name.
+func (t Team) GetName() string {
+	return t.Name
+}
+
+// GetID returns Team's ID.
+func (t Team) GetID() UID {
+	return t.ID
+}
+
+// FootballTeam represents the football team in the game.
+type FootballTeam struct {
+	Team
+	PlayerList []*FootballPlayer `json:"player_list"`
+	Manager    FootballManager   `json:"manager"`
+	Captain    *FootballPlayer   `json:"captain"`
+	Stadium    Stadium           `json:"stadium"`
 	// TBD
+}
+
+// MakeNewFootballTeam returns new football team.
+func MakeNewFootballTeam(
+	id UID, name string, balance, starRate float32, history []History,
+) *FootballTeam {
+	team := makeNewTeam(id, name, balance, starRate, history)
+	return &FootballTeam{
+		Team: *team,
+	}
 }

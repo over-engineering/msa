@@ -1,9 +1,12 @@
 package models
 
-import "math/rand"
+import (
+	"math/rand"
+	"time"
+)
 
 var StatusType1 = Status{
-	LifeCycle: LifeCycle{Age: 20, LifeSpan: 100},
+	LifeCycle: LifeCycle{Age: 20, Dead: time.Now().AddDate(10, 5, 5)},
 	Health:    100,
 	Height:    170,
 	Weight:    70,
@@ -57,7 +60,7 @@ func StarterStatus() *Status {
 	}
 
 	NewStatus := &Status{
-		LifeCycle: LifeCycle{Age: randList[0] + 20, LifeSpan: randList[1] + 100},
+		LifeCycle: LifeCycle{Age: int(randList[0] + 20), Dead: time.Now().Add(time.Hour * 100)},
 		Health:    randList[2] + 50,
 		Height:    randList[3] + 170,
 		Weight:    randList[4] + 70,

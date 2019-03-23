@@ -1,26 +1,36 @@
 package models
 
-import "fmt"
+import (
+	"errors"
+	"time"
+)
 
+// LifeCycle represents the structure dealing with aging.
 type LifeCycle struct {
-	Age      float32 `json:"age"`
-	LifeSpan float32 `json:"lifeSpan"`
+	Alive bool      `json:"alive"`
+	Born  time.Time `json:"born"`
+	Dead  time.Time `json:"lifeSpan"`
+	Age   int       `json:"age"`
 }
 
-func (l *LifeCycle) UpdateValue(age float32) error {
-	if l.Age+age < 0 {
-		return fmt.Errorf("age < 0")
+// UpdateValues updates values in LifeCycle structure with given time.
+func (l *LifeCycle) UpdateValues(currentTime time.Time) error {
+	if currentTime.Before(l.Born) {
+		return errors.New("current time is before born")
 	}
-
-	l.Age += age
-
-	if l.Age >= l.LifeSpan {
-		l.Dead()
+	bornYear, _, _ := l.Born.Date()
+	if currentTime.After(l.Dead) {
+		l.Die()
+		deadYear, _, _ := l.Dead.Date()
+		l.Age = deadYear - bornYear
+		return nil
 	}
-
+	currentYear, _, _ := currentTime.Date()
+	l.Age = currentYear - bornYear
 	return nil
 }
 
-func (l LifeCycle) Dead() {
-
+// Die makes Alive to false
+func (l *LifeCycle) Die() {
+	l.Alive = false
 }
