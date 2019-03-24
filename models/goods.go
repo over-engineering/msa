@@ -128,6 +128,16 @@ type House struct {
 	ParkingSpace bool     `json:parking_space`
 }
 
+func (h *House) Rest(st *Status) {
+	st.ApplyEffects(
+		Effects{
+			Effect{
+				Target: "Health",
+				Value:  30,
+			},
+		})
+}
+
 const (
 	AppleID UID = 1000
 	OrangeID

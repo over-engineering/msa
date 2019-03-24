@@ -17,7 +17,7 @@ func TestActivity(t *testing.T) {
 
 	act := models.ActivityManager{
 		Character: c1,
-		JobHelper: &models.SoccerPlayer{},
+		JobManager: &models.SoccerPlayer{},
 		ActPoint:  100,
 		// Facility:
 		// Job:
