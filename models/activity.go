@@ -17,6 +17,7 @@ const (
 )
 
 func ActVisit(a ActivityManager, f FacilityManager, options []int) error {
+	// fmt.Println(options)
 	a.VisitFacility(f, options)
 	return AddActPoint(a, VisitActPoint)
 }
@@ -26,7 +27,7 @@ func ActConsume(a ActivityManager, g GoodsHelper, options []int) error {
 	return AddActPoint(a, ConsumeActPoint)
 }
 
-func ActPlayform(a ActivityManager, j JobManager, options []int) error {
+func ActPlay(a ActivityManager, j JobManager, options []int) error {
 	a.PlayJob(j, options)
 	return AddActPoint(a, PlayActPoint)
 }
@@ -40,7 +41,7 @@ func AddActPoint(a ActivityManager, amount int) error {
 	switch a.(type) {
 	case *Character:
 		if a.(*Character).ActPoint < amount {
-			return fmt.Errorf("a.ActivityPoint < amount")
+			return fmt.Errorf("ActPoint < amount")
 		}
 		a.(*Character).ActPoint += amount
 

@@ -9,27 +9,13 @@ const (
 	FoodType
 )
 
-// Goods interface covers all kinds of goods
-// type Goods interface {
-type GoodsHelper interface {
-	GetID() UID
-	GetGoodsType() GoodsType
-	GetName() string
-	GetPrice() float32
-	SetPrice(p float32)
-}
-
-func GetGoods(goodsList [][]GoodsHelper, goodsType GoodsType, goodsIndex int) GoodsHelper {
-	return goodsList[goodsType][goodsIndex]
-}
-
-func RegisterGoods(goodsList [][]GoodsHelper, g GoodsHelper) {
-	goodsList[g.GetGoodsType()] = append(goodsList[g.GetGoodsType()], g)
-}
-
-func UnRegisterGoods(goodsList [][]GoodsHelper, goodsType GoodsType, index int) {
-	goodsList[goodsType] = append(goodsList[goodsType][:index], goodsList[goodsType][index+1:]...)
-}
+const (
+	Galaxy        UID = 100
+	AppleID       UID = 1000
+	OrangeID          = 1001
+	EnergyDrinkID     = 1002
+	DrugID            = 1003
+)
 
 // base goods struct
 type Goods struct {
@@ -68,12 +54,6 @@ func (g *Goods) GetBrand() string {
 type Camera struct {
 	Goods
 }
-
-// type SmartPhoneID int
-
-const (
-	Galaxy UID = 100
-)
 
 type SmartPhone struct {
 	Goods           // embedded struct
@@ -138,26 +118,22 @@ func (h *House) Rest(st *Status) {
 		})
 }
 
-const (
-	AppleID UID = 1000
-	OrangeID
-	EnergyDrinkID
-)
-
 type Food struct {
 	*Goods
-	Flavor         float32
-	Kcal           float32 // kcal
-	Mass           float32 // kg
-	ExpirationDate int
+	Flavor         float32 `json:"flavor"`
+	Kcal           float32 `json:"kcal"` // kcal
+	Mass           float32 `json:"mass"` // kg
+	ExpirationDate int     `json:"expiration_date"`
 }
 
-const (
-	AppleKcalPerMass = 0.0521
-	OrangeKcalPerMass
-)
+var KcalPerMass = map[UID]float32{
+	AppleID:       0.0521,
+	OrangeID:      0.04,
+	EnergyDrinkID: 0.1,
+	DrugID:        0.07,
+}
 
-func NewFood(id UID, name string, price float32, flavor float32, mass float32) *Food {
+func NewFood(id UID, name string, price float32, flavor float32, mass float32, expDate int) *Food {
 	return &Food{
 		Goods: &Goods{
 			ID:        id,
@@ -168,9 +144,9 @@ func NewFood(id UID, name string, price float32, flavor float32, mass float32) *
 			// Description: ,
 		},
 		Flavor:         flavor,
-		Kcal:           AppleKcalPerMass * mass,
+		Kcal:           KcalPerMass[id] * mass,
 		Mass:           mass,
-		ExpirationDate: 100,
+		ExpirationDate: expDate,
 	}
 }
 
@@ -186,4 +162,44 @@ func (f *Food) Eat(st *Status) {
 
 func (f *Food) GetExpirationDate() int {
 	return f.ExpirationDate
+}
+
+type Drug struct {
+	*Goods
+	Strength       float32 `json:"strength"`
+	Kcal           float32 `json:"kcal"` // kcal
+	Mass           float32 `json:"mass"` // kg
+	ExpirationDate int     `json:"expiration_date"`
+}
+
+func NewDrug(id UID, name string, price float32, strength float32, mass float32, expDate int) *Drug {
+	return &Drug{
+		Goods: &Goods{
+			ID:        id,
+			GoodsType: FoodType,
+			Name:      name,
+			// Brand: ,
+			Price: price,
+			// Description: ,
+		},
+		Strength:       strength,
+		Kcal:           KcalPerMass[id] * mass,
+		Mass:           mass,
+		ExpirationDate: expDate,
+	}
+}
+
+func (d *Drug) Eat(st *Status) {
+	st.ApplyEffects(
+		Effects{
+			Effect{
+				Target: "ConsumedKcal",
+				Value:  -d.Kcal * st.KcKgTranslationRate,
+			},
+			Effect{
+				Target: "Hormones",
+				// Value:  Hormones{Dopamine: &d.Strength},
+				Value: Hormones{Dopamine: d.Strength},
+			},
+		})
 }

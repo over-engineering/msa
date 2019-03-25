@@ -80,9 +80,9 @@ func (c *Character) VisitFacility(f FacilityManager, options []int) {
 			g := f.(*Market).BuyGoods(options[1])
 			RegisterGoods(c.Goods, g)
 		} else if options[0] == 1 {
-			g := GetGoods(c.Goods, GoodsType(options[2]), options[3])
+			g := GetGoods(c.Goods, GoodsType(options[1]), options[2])
 			f.(*Market).SellGoods(g)
-			UnRegisterGoods(c.Goods, GoodsType(options[2]), options[3])
+			UnRegisterGoods(c.Goods, GoodsType(options[1]), options[2])
 		}
 	case *Hospital:
 		if options[0] == 0 {
@@ -104,9 +104,9 @@ func (c *Character) ConsumeGoods(g GoodsHelper, options []int) {
 		if options[0] == 0 {
 			g.(*House).Rest(c.Status)
 		}
-	case *Food:
+	case FoodManager:
 		if options[0] == 0 {
-			g.(*Food).Eat(c.Status)
+			g.(FoodManager).Eat(c.Status)
 		}
 	case *SmartPhone:
 		if options[0] == 0 {

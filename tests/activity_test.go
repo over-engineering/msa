@@ -15,18 +15,10 @@ func TestActivity(t *testing.T) {
 	// c2 := cList[1]
 	// c3 := cList[2]
 
-	act := models.ActivityManager{
-		Character: c1,
-		JobManager: &models.SoccerPlayer{},
-		ActPoint:  100,
-		// Facility:
-		// Job:
-	}
-
 	PrintCharacter(c1)
 
-	apple := models.NewFood(models.AppleID, "Apple", 100, 50, 300)
-	orange := models.NewFood(models.OrangeID, "Orange", 50, 60, 100)
+	apple := models.NewFood(models.AppleID, "Apple", 100, 50, 300, 7)
+	orange := models.NewFood(models.OrangeID, "Orange", 50, 60, 100, 7)
 	smartPhone := &models.SmartPhone{
 		Goods: models.Goods{
 			ID:        10,
@@ -42,7 +34,9 @@ func TestActivity(t *testing.T) {
 		Battery: 3400, // mAh
 	}
 
-	market := &models.Market{models.UID(15), models.Location{100, 100}, 100, []models.GoodsHelper{}, 0.2}
+	drug := CreateDrug()
+
+	market := &models.Market{models.UID(15), &models.Location{100, 100}, 100, []models.GoodsHelper{}, 0.2}
 
 	fmt.Println("=============================== Market Test =======================")
 
@@ -53,37 +47,54 @@ func TestActivity(t *testing.T) {
 	market.AddGoods(apple)
 	market.AddGoods(orange)
 	market.AddGoods(smartPhone)
+	market.AddGoods(drug)
 	fmt.Println("================Market Goods==================")
 	PrintGoods(market.GoodsList)
 
 	fmt.Println("================Character Goods==================")
-	fmt.Println(act.Character.Goods)
+	fmt.Println(c1.Goods)
 
 	// buy goods
-	act.MarketService(market, 2)
+	// act.MarketService(market, 2)
+	models.ActVisit(c1, market, []int{0, 0})
 	fmt.Println("================Market Goods==================")
 	PrintGoods(market.GoodsList)
-	act.MarketService(market, 2)
+	models.ActVisit(c1, market, []int{0, 0})
+	fmt.Println("================Market Goods==================")
+	PrintGoods(market.GoodsList)
+	models.ActVisit(c1, market, []int{0, 0})
+	fmt.Println("================Market Goods==================")
+	PrintGoods(market.GoodsList)
+	models.ActVisit(c1, market, []int{0, 0})
 	fmt.Println("================Market Goods==================")
 	PrintGoods(market.GoodsList)
 	fmt.Println("================Character Goods==================")
-	fmt.Println(act.Character.Goods)
+	fmt.Println(c1.Goods)
 
 	// act.Eat(act.Character.Goods[], 1)
 	// PrintCharacter(c1)
 
-	// sell goods
-	act.MarketService(market, 3)
+	// Sell goods
+	models.ActVisit(c1, market, []int{1, 3, 0})
 	fmt.Println("================Character Goods==================")
-	fmt.Println(act.Character.Goods)
-	act.MarketService(market, 3)
+	fmt.Println(c1.Goods)
+	models.ActVisit(c1, market, []int{1, 3, 0})
 	fmt.Println("================Character Goods==================")
-	fmt.Println(act.Character.Goods)
+	fmt.Println(c1.Goods)
 	fmt.Println("================Market Goods==================")
 	PrintGoods(market.GoodsList)
 
-	fitness := &models.Fitness{10, models.Location{2, 5}, 100, 50}
-	act.FitService(fitness, 1)
+	fmt.Println(c1.Status)
+	// Use drug
+	fmt.Println("=======================Use Goods===================")
+	models.ActConsume(c1, models.GetGoods(c1.Goods, models.FoodType, 0), []int{0})
+	fmt.Println(c1.Status)
+	fmt.Println("=======================Use Goods===================")
+	models.ActConsume(c1, models.GetGoods(c1.Goods, models.FoodType, 0), []int{0})
+	fmt.Println(c1.Status)
+
+	fitness := &models.Fitness{10, &models.Location{2, 5}, 100, 50}
+	models.ActVisit(c1, fitness, []int{0})
 	PrintCharacter(c1)
 }
 

@@ -45,6 +45,7 @@ func CreateCharacters() []*models.Character {
 		FirstName: "chan",
 		LastName:  "park",
 		Job:       models.JOB_NONE,
+		Location:  &models.Location{0, 0},
 		Status:    models.StarterStatus(),
 		// Conditions: ,
 		// Equipments: ,
@@ -60,6 +61,7 @@ func CreateCharacters() []*models.Character {
 		// FanInfo: ,
 		Friendships: models.Friendships{},
 		// Team: ,
+		ActPoint: 100,
 	}
 
 	c2 := &models.Character{
@@ -67,6 +69,7 @@ func CreateCharacters() []*models.Character {
 		FirstName: "junmo",
 		LastName:  "park",
 		Job:       models.JOB_SOCCER_PLAYER,
+		Location:  &models.Location{0, 0},
 		Status:    models.StarterStatus(),
 		// Conditions: ,
 		// Equipments: ,
@@ -82,6 +85,7 @@ func CreateCharacters() []*models.Character {
 		// FanInfo: ,
 		Friendships: models.Friendships{},
 		// Team: ,
+		ActPoint: 100,
 	}
 
 	c3 := &models.Character{
@@ -89,6 +93,7 @@ func CreateCharacters() []*models.Character {
 		FirstName: "changhyun",
 		LastName:  "park",
 		Job:       models.JOB_BASEBALL_PLAYER,
+		Location:  &models.Location{0, 0},
 		Status:    models.StarterStatus(),
 		// Conditions: ,
 		// Equipments: ,
@@ -104,6 +109,7 @@ func CreateCharacters() []*models.Character {
 		// FanInfo: ,
 		Friendships: models.Friendships{},
 		// Team: ,
+		ActPoint: 100,
 	}
 
 	return []*models.Character{c1, c2, c3}

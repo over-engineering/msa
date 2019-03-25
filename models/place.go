@@ -1,6 +1,8 @@
 package models
 
-import "math"
+import (
+	"math"
+)
 
 type Location struct {
 	X int

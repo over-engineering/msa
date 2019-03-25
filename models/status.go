@@ -32,7 +32,9 @@ type Status struct {
 	// TODO: Sense
 
 	// Mental related features
-	Mentals Mentals `json:"mentals"`
+	Needs    Needs    `json:"needs"`
+	Hormones Hormones `json:"hormones"`
+	Mentals  Mentals  `json:"mentals"`
 
 	// Intelligence(Gardner의 이론 차용)
 	// 성향 이론
@@ -54,21 +56,19 @@ func (s *Status) ApplyEffects(es Effects) {
 			s.Personality.UpdateValue(e.Value.(Personality))
 		case e.Target == "Mentals":
 			s.Mentals.UpdateValue(e.Value.(Mentals), s.Personality)
+		case e.Target == "Needs":
+			s.Needs.UpdateValue(e.Value.(Needs), s.Hormones)
+		case e.Target == "Hormones":
+			s.Hormones.UpdateValue(e.Value.(Hormones))
 		// case e.Target == "Intelligence":
 		// 	s.Intelligence.UpdateValue(Value.(Intelligence))
 		default:
 
 			// f := reflect.ValueOf(s).Elem().FieldByName(e.Target)
+			// f.SetFloat(f.Float() + e.Value.(float64))
 			v := reflect.ValueOf(s).Elem().FieldByName(e.Target)
 			u := v.Interface().(float32)
 			v.SetFloat(float64(u + e.Value.(float32)))
-			// p := u &
-			// *u += e.Value.(float32)
-			// fmt.Println(e.Target, u, e)
-
-			// u += t
-			// fmt.Println(u)
-			// f.SetFloat(f.Float() + e.Value.(float64))
 
 		}
 	}
