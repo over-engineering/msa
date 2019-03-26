@@ -15,7 +15,7 @@ type Character struct {
 	// TODO: Nationality
 	// TODO: user struct
 
-	Location Location `json:"location"`
+	Location *Location `json:"location"`
 
 	Status     *Status                     `json:"status"`
 	Conditions Conditions                  `json:"conditions"`
@@ -34,7 +34,8 @@ type Character struct {
 	Friendships Friendships `json:"friendships"`
 	// Character would not have a team. Also, team information
 	// could be shared with other players.
-	Team *Team `json:"team"`
+	Team     *Team `json:"team"`
+	ActPoint int   `json:"act_point"`
 }
 
 // NewCharacter returns new Character object
@@ -48,8 +49,7 @@ func (c *Character) CurrentJob() JobType {
 	return c.Job
 }
 
-// CurrentLocation returns character's current location.
-func (c *Character) CurrentLocation() Location {
+func (c *Character) CurrentLocation() *Location {
 	return c.Location
 }
 
@@ -88,4 +88,75 @@ func (c *Character) Paid(amount float32) error {
 // GetID returns Entity's ID.
 func (c Character) GetID() UID {
 	return c.ID
+}
+
+func (c *Character) VisitFacility(f FacilityManager, options []int) {
+	f.Visit(c.Location, c.Status)
+
+	switch f.(type) {
+	case *Stadium:
+
+	case *Market:
+		if options[0] == 0 {
+			g := f.(*Market).BuyGoods(options[1])
+			RegisterGoods(c.Goods, g)
+		} else if options[0] == 1 {
+			g := GetGoods(c.Goods, GoodsType(options[1]), options[2])
+			f.(*Market).SellGoods(g)
+			UnRegisterGoods(c.Goods, GoodsType(options[1]), options[2])
+		}
+	case *Hospital:
+		if options[0] == 0 {
+			f.(*Hospital).Treat(c.Status, c.Conditions)
+		} else if options[0] == 1 {
+			f.(*Hospital).Surgery(c.Status, c.Conditions)
+		}
+	case *Fitness:
+		if options[0] == 0 {
+			f.(*Fitness).Exercise(c.Status)
+		}
+	default:
+	}
+}
+
+func (c *Character) ConsumeGoods(g GoodsHelper, options []int) {
+	switch g.(type) {
+	case *House:
+		if options[0] == 0 {
+			g.(*House).Rest(c.Status)
+		}
+	case FoodManager:
+		if options[0] == 0 {
+			g.(FoodManager).Eat(c.Status)
+		}
+	case *SmartPhone:
+		if options[0] == 0 {
+			g.(*SmartPhone).Call(c.Status)
+		}
+	case *Car:
+		if options[0] == 0 {
+			g.(*Car).Ride(c.Status)
+		}
+	default:
+	}
+
+	return
+}
+
+func (c *Character) PlayJob(j JobManager, options []int) {
+	switch j.(type) {
+	case *SoccerPlayer:
+	default:
+	}
+}
+
+func (c *Character) HangOut(id UID) {
+	c.Status.ApplyEffects(
+		Effects{
+			Effect{
+				Target: "Charm",
+				Value:  5,
+			},
+		})
+
 }

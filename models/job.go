@@ -9,10 +9,10 @@ const (
 	JOB_BASEBALL_PLAYER                // 2
 )
 
-type JobHelper interface {
+type JobManager interface {
 	RegisterPro()
 	UnRegisterPro()
-	Training()
+	Train()
 	Play()
 }
 
@@ -28,7 +28,7 @@ func (s *SoccerPlayer) UnRegisterPro() {
 
 }
 
-func (s *SoccerPlayer) Training() {
+func (s *SoccerPlayer) Train() {
 
 }
 
