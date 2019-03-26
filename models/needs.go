@@ -1,5 +1,7 @@
 package models
 
+import "fmt"
+
 type NeedsType int
 
 const (
@@ -12,6 +14,25 @@ const (
 	ReputationNeeds                   // 명예욕
 	AchievementNeeds                  // 성취욕
 )
+
+func (nType NeedsType) String() string {
+	names := [8]string{
+		"FoodNeeds",
+		"SleepNeeds",
+		"SexNeeds",
+		"RestNeeds",
+		"StabilityNeeds",
+		"AffectionNeeds",
+		"ReputationNeeds",
+		"AchievementNeeds",
+	}
+
+	if nType < FoodNeeds || nType > AchievementNeeds {
+		return "Error"
+	}
+
+	return names[nType]
+}
 
 var NeedsTable = []map[HormoneType]float32{
 	FoodNeeds:        map[HormoneType]float32{Serotonin: 0.1, Norepinephrine: 0.1, Epinephrine: 0.2, Dopamine: 0, Endorphin: 0.1, Oxytocin: 0.1},
@@ -28,6 +49,12 @@ const NeedsThreshold = 100
 
 type Needs map[NeedsType]float32
 
+const (
+	FoodNeedsRisingVal  = 50
+	SleepNeedsRisingVal = 50
+	SexNeedsRisingVal   = 5
+)
+
 func (ns Needs) UpdateValue(v Needs, hs Hormones) {
 	hormoneMap := Hormones{}
 	for key, value := range v {
@@ -36,10 +63,14 @@ func (ns Needs) UpdateValue(v Needs, hs Hormones) {
 		}
 		ns.UpdateHormoneMap(key, ns[key], value, hormoneMap)
 		ns[key] += value
+
+		if ns[key] < 0 {
+			ns[key] = 0
+		}
 	}
 
 	hs.UpdateValue(hormoneMap)
-
+	fmt.Println("Update Needs", v, hs, ns)
 }
 
 func (ns Needs) UpdateHormoneMap(t NeedsType, orgVal float32, updateVal float32, hormoneMap Hormones) Hormones {

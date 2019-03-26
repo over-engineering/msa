@@ -56,42 +56,77 @@ func TestActivity(t *testing.T) {
 
 	// buy goods
 	// act.MarketService(market, 2)
+	fmt.Println("================Buy Goods==================")
 	models.ActVisit(c1, market, []int{0, 0})
+	models.AddActPoint(c1, models.MaxActPoint)
 	fmt.Println("================Market Goods==================")
 	PrintGoods(market.GoodsList)
+	fmt.Println("===========================================")
+	fmt.Println("================Buy Goods==================")
 	models.ActVisit(c1, market, []int{0, 0})
+	models.AddActPoint(c1, models.MaxActPoint)
 	fmt.Println("================Market Goods==================")
 	PrintGoods(market.GoodsList)
+	fmt.Println("===========================================")
+	fmt.Println("================Buy Goods==================")
 	models.ActVisit(c1, market, []int{0, 0})
+	models.AddActPoint(c1, models.MaxActPoint)
 	fmt.Println("================Market Goods==================")
 	PrintGoods(market.GoodsList)
+	fmt.Println("===========================================")
+	fmt.Println("================Buy Goods==================")
 	models.ActVisit(c1, market, []int{0, 0})
+	models.AddActPoint(c1, models.MaxActPoint)
 	fmt.Println("================Market Goods==================")
 	PrintGoods(market.GoodsList)
 	fmt.Println("================Character Goods==================")
 	fmt.Println(c1.Goods)
-
+	fmt.Println("===========================================")
 	// act.Eat(act.Character.Goods[], 1)
 	// PrintCharacter(c1)
 
 	// Sell goods
-	models.ActVisit(c1, market, []int{1, 3, 0})
-	fmt.Println("================Character Goods==================")
-	fmt.Println(c1.Goods)
-	models.ActVisit(c1, market, []int{1, 3, 0})
-	fmt.Println("================Character Goods==================")
-	fmt.Println(c1.Goods)
-	fmt.Println("================Market Goods==================")
-	PrintGoods(market.GoodsList)
+	// fmt.Println("================Sell Goods==================")
+	// models.ActVisit(c1, market, []int{1, 3, 0})
+	// models.AddActPoint(c1, models.MaxActPoint)
+	// fmt.Println("================Character Goods==================")
+	// fmt.Println(c1.Goods)
+	// fmt.Println("================Market Goods==================")
+	// PrintGoods(market.GoodsList)
+	// fmt.Println("===========================================")
+	// fmt.Println("================Sell Goods==================")
+	// models.ActVisit(c1, market, []int{1, 3, 0})
+	// models.AddActPoint(c1, models.MaxActPoint)
+	// fmt.Println("================Character Goods==================")
+	// fmt.Println(c1.Goods)
+	// fmt.Println("================Market Goods==================")
+	// PrintGoods(market.GoodsList)
+	// fmt.Println("===========================================")
 
-	fmt.Println(c1.Status)
-	// Use drug
+	// fmt.Println(c1.Status)
+
+	// Update status, goods
+	fmt.Println("=======================Update Needs===================")
+	models.UpdateDay(c1.Status, c1.Goods)
+	models.UpdateDay(c1.Status, c1.Goods)
+	models.UpdateDay(c1.Status, c1.Goods)
+
+	fmt.Println("Status: ", c1.Status)
+	fmt.Println("======================================================")
+
+	// Use Goods
 	fmt.Println("=======================Use Goods===================")
-	models.ActConsume(c1, models.GetGoods(c1.Goods, models.FoodType, 0), []int{0})
-	fmt.Println(c1.Status)
+	models.ActConsume(c1, c1.Goods.GetGoods(models.FoodType, 0), []int{0})
+	fmt.Println("Status: ", c1.Status)
+	fmt.Println("===================================================")
 	fmt.Println("=======================Use Goods===================")
-	models.ActConsume(c1, models.GetGoods(c1.Goods, models.FoodType, 0), []int{0})
-	fmt.Println(c1.Status)
+	models.ActConsume(c1, c1.Goods.GetGoods(models.FoodType, 0), []int{0})
+	fmt.Println("Status: ", c1.Status)
+	fmt.Println("===================================================")
+	fmt.Println("=======================Use Goods===================")
+	models.ActConsume(c1, c1.Goods.GetGoods(models.FoodType, 0), []int{0})
+	fmt.Println("Status: ", c1.Status)
+	fmt.Println("===================================================")
 
 	fitness := &models.Fitness{10, &models.Location{2, 5}, 100, 50}
 	models.ActVisit(c1, fitness, []int{0})
@@ -99,6 +134,7 @@ func TestActivity(t *testing.T) {
 }
 
 func PrintGoods(g []models.GoodsHelper) {
+	fmt.Println(g)
 	for _, val := range g {
 		fmt.Println(val)
 	}

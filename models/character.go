@@ -25,10 +25,10 @@ type Character struct {
 	// Goods    []map[interface{}]interface{} `json:"goods"`
 	// Goods    [][]GoodsHelper `json:"goods"`
 	// Goods    []map[UID]GoodsHelper `json:"goods"`
-	Goods    [][]GoodsHelper `json:"goods"`
-	Finance  Finance         `json:"finance"` // Or maybe Account
-	Contract Contract        `json:"contract"`
-	FanInfo  FanInfo         `json:"fan_info"`
+	Goods    GoodsList `json:"goods"`
+	Finance  Finance   `json:"finance"` // Or maybe Account
+	Contract Contract  `json:"contract"`
+	FanInfo  FanInfo   `json:"fan_info"`
 
 	Friendships Friendships `json:"friendships"`
 	// Character would not have a team. Also, team information
@@ -78,11 +78,11 @@ func (c *Character) VisitFacility(f FacilityManager, options []int) {
 	case *Market:
 		if options[0] == 0 {
 			g := f.(*Market).BuyGoods(options[1])
-			RegisterGoods(c.Goods, g)
+			c.Goods.RegisterGoods(g)
 		} else if options[0] == 1 {
-			g := GetGoods(c.Goods, GoodsType(options[1]), options[2])
+			g := c.Goods.GetGoods(GoodsType(options[1]), options[2])
 			f.(*Market).SellGoods(g)
-			UnRegisterGoods(c.Goods, GoodsType(options[1]), options[2])
+			c.Goods.UnRegisterGoods(GoodsType(options[1]), options[2])
 		}
 	case *Hospital:
 		if options[0] == 0 {

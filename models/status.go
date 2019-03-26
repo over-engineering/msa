@@ -73,3 +73,22 @@ func (s *Status) ApplyEffects(es Effects) {
 		}
 	}
 }
+
+func (s *Status) UpdateByDay() {
+	// Update needs
+	nMap := Needs{
+		FoodNeeds:  FoodNeedsRisingVal,
+		SleepNeeds: SleepNeedsRisingVal,
+		SexNeeds:   SexNeedsRisingVal,
+	}
+	s.Needs.UpdateValue(nMap, s.Hormones)
+
+	// Update hormones
+	// s.Hormones.UpdateValue()
+
+	// Update height
+
+	// Update weight
+	s.Weight += s.ConsumedKcal * s.KcKgTranslationRate
+	s.ConsumedKcal = 0
+}
