@@ -3,8 +3,9 @@ package models
 import "fmt"
 
 type LifeCycle struct {
-	Age      float32 `json:"age"`
-	LifeSpan float32 `json:"lifeSpan"`
+	Age        float32 `json:"age"`
+	LifeSpan   float32 `json:"lifeSpan"`
+	Generation int     `json:"generation"`
 }
 
 func (l *LifeCycle) UpdateValue(age float32) error {

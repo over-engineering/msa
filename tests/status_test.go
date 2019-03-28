@@ -95,10 +95,10 @@ func TestCreateStatus(t *testing.T) {
 	status := models.Status{}
 
 	// intelligence
-	intellValue := [8]float32{10, 30, 40, 100, 50, 5, 7, 23}
-	intellPeakAge := [8]int{30, 30, 30, 30, 30, 30, 30, 30}
-	intellVariation := [8]float32{0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}
-	status.Intelligences = models.NewIntelligences(intellValue, intellPeakAge, intellVariation)
+	// intellValue := [8]float32{10, 30, 40, 100, 50, 5, 7, 23}
+	// intellPeakAge := [8]int{30, 30, 30, 30, 30, 30, 30, 30}
+	// intellVariation := [8]float32{0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1, 0.1}
+	// status.Intelligences = models.NewIntelligences(intellValue, intellPeakAge, intellVariation)
 
 	// persoanlity
 	status.Personality = models.NewPersonality([4]float32{0.5, 0.4, 0.1, 1.0})
@@ -150,9 +150,9 @@ func TestCreateStatus(t *testing.T) {
 // }
 
 func PrintStatus(status *models.Status) {
-	for i := 0; i < models.IntelligenceNum; i++ {
-		fmt.Println("Intelligence: ", status.Intelligences[models.IntelligenceType(i)])
-	}
+	// for i := 0; i < models.IntelligenceNum; i++ {
+	// 	fmt.Println("Intelligence: ", status.Intelligences[models.IntelligenceType(i)])
+	// }
 
 	fmt.Println("Personality: ", status.Personality)
 

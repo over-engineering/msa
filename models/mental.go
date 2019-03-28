@@ -12,7 +12,7 @@ const (
 	Aggression
 	Predictation
 	Composure // 참착성
-	Concentration
+	// Concentration
 	Immersion
 	Competition
 	SelfEsteem
@@ -79,11 +79,11 @@ var mentalCoefficients = map[MentalType]map[string]float32{
 		"Example2": 0.4,
 		"Example3": 0.5,
 	},
-	Concentration: map[string]float32{
-		"Example1": 0.1,
-		"Example2": 0.4,
-		"Example3": 0.5,
-	},
+	// Concentration: map[string]float32{
+	// 	"Example1": 0.1,
+	// 	"Example2": 0.4,
+	// 	"Example3": 0.5,
+	// },
 	Immersion: map[string]float32{
 		"Example1": 0.1,
 		"Example2": 0.4,

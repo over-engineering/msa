@@ -2,13 +2,12 @@ package tests
 
 import (
 	"fmt"
-	"testing"
 
 	"github.com/over-engineering/msa/models"
 )
 
-// func Tmp2() {
-func TestActivity(t *testing.T) {
+func Tmp4() {
+	// func TestActivity(t *testing.T) {
 	// func TestActivity(t *testing.T) {
 	cList := CreateCharacters()
 	c1 := cList[0]
