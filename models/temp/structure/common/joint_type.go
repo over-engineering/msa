@@ -1,0 +1,14 @@
+package common
+
+type JointType int
+
+const (
+	BALL_AND_SOCKET_JOINT JointType = iota
+	ELBOW_JOINT
+	GLIDING_JOINT
+	HAND_JOINT
+	HINGE_JOINT
+	HIP_JOINT
+	SADDLE_JOINT
+	SPINE_JOINT
+)
