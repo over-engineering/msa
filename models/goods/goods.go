@@ -1,30 +1,19 @@
 package goods
 
 import (
+	"github.com/over-engineering/msa/models/character"
 	"github.com/over-engineering/msa/models/types"
 	"github.com/over-engineering/msa/models/world/space"
 )
 
-type OwnedList struct {
-	OwnerID  types.UID                            `json:"owner_id"`
-	GoodsIDs map[GoodsType]map[types.UID]struct{} `json:"goods_id"`
-}
-
-func (g OwnedList) Exist(gt GoodsType) bool {
-	if len(g.GoodsIDs[gt]) == 0 {
-		return false
-	}
-	return true
-}
-
-func (g *OwnedList) AddGoods(u Goods) error {
-	g.GoodsIDs[u.GoodsType][u.ID] = struct{}{}
-	return nil
-}
-
-func (g *OwnedList) RemoveGoods(u Goods) error {
-	delete(g.GoodsIDs[u.GoodsType], u.ID)
-	return nil
+type GoodsManager interface {
+	GetID() types.UID
+	GetGoodsType() GoodsType
+	GetName() string
+	GetPrice() float32
+	SetPrice(p float32)
+	UpdateByDay()
+	Use(by *character.Character, option int, args []string) error
 }
 
 type GoodsType types.Type

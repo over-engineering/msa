@@ -7,6 +7,7 @@ import (
 
 	"github.com/over-engineering/msa/models/fan"
 	"github.com/over-engineering/msa/models/finance"
+	"github.com/over-engineering/msa/models/talent"
 	"github.com/over-engineering/msa/models/types"
 )
 
@@ -40,10 +41,11 @@ type Character struct {
 
 	// Location *Location `json:"location"`
 
-	Status     Status                          `json:"status"`
-	Conditions []ConditionUpdater              `json:"conditions"`
-	Contracts  []types.UID                     `json:"contracts"`
-	Equipments map[types.EquipmentType]*Wearer `json:"equipments"`
+	Status     Status             `json:"status"`
+	Conditions []ConditionUpdater `json:"conditions"`
+	Contracts  []types.UID        `json:"contracts"`
+	// Equipments map[types.EquipmentType]*Wearer `json:"equipments"` this goes to game server
+	talent.Talents `json:"talents"`
 
 	finance.Finance `json:"finance"`
 }
@@ -61,7 +63,7 @@ func NewCharacter(
 		Status:     status,
 		Conditions: []ConditionUpdater{},
 		Contracts:  []types.UID{},
-		Equipments: map[types.EquipmentType]*Wearer{},
+		// Equipments: map[types.EquipmentType]*Wearer{},
 		Finance: finance.Finance{
 			Balance: 0,
 		},
@@ -143,23 +145,23 @@ func (c Character) GetID() types.UID {
 }
 
 // Wear wears the Wearer object and take off previous one if exists.
-func (c *Character) Wear(w *Wearer) error {
-	et := (*w).GetEquipmentType()
-	if _, ok := c.Equipments[et]; !ok {
-		c.Equipments[et] = w
-		(*w).ApplyEffect(c)
-		return nil
-	}
-	prev := c.Equipments[et]
-	(*prev).CancelEffect(c)
-	c.Equipments[et] = w
-	(*w).ApplyEffect(c)
-	return nil
-}
+// func (c *Character) Wear(w *Wearer) error {
+// 	et := (*w).GetEquipmentType()
+// 	if _, ok := c.Equipments[et]; !ok {
+// 		c.Equipments[et] = w
+// 		(*w).ApplyEffect(c)
+// 		return nil
+// 	}
+// 	prev := c.Equipments[et]
+// 	(*prev).CancelEffect(c)
+// 	c.Equipments[et] = w
+// 	(*w).ApplyEffect(c)
+// 	return nil
+// }
 
-// TakeOff takes off the Wearer from character.
-func (c *Character) TakeOff(w *Wearer) error {
-	delete(c.Equipments, (*w).GetEquipmentType())
-	(*w).CancelEffect(c)
-	return nil
-}
+// // TakeOff takes off the Wearer from character.
+// func (c *Character) TakeOff(w *Wearer) error {
+// 	delete(c.Equipments, (*w).GetEquipmentType())
+// 	(*w).CancelEffect(c)
+// 	return nil
+// }

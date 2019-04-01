@@ -7,10 +7,11 @@ import (
 
 // LifeCycle represents the structure dealing with aging.
 type LifeCycle struct {
-	Alive bool      `json:"alive"`
-	Born  time.Time `json:"born"`
-	Dead  time.Time `json:"lifeSpan"`
-	Age   int       `json:"age"`
+	Alive      bool      `json:"alive"`
+	Born       time.Time `json:"born"`
+	Dead       time.Time `json:"lifeSpan"`
+	Age        int       `json:"age"`
+	Generation int       `json:"generation"`
 }
 
 // UpdateValues updates values in LifeCycle structure with given time.

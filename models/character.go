@@ -1,7 +1,6 @@
 package models
 
 import (
-	"errors"
 	"strings"
 )
 
@@ -26,10 +25,10 @@ type Character struct {
 	// Goods    []map[interface{}]interface{} `json:"goods"`
 	// Goods    [][]GoodsHelper `json:"goods"`
 	// Goods    []map[UID]GoodsHelper `json:"goods"`
-	Goods    [][]GoodsHelper  `json:"goods"`
-	Finance  `json:"finance"` // Or maybe Account
-	Contract Contract         `json:"contract"`
-	FanInfo  FanInfo          `json:"fan_info"`
+	Goods    GoodsList `json:"goods"`
+	Finance  Finance   `json:"finance"` // Or maybe Account
+	Contract Contract  `json:"contract"`
+	FanInfo  FanInfo   `json:"fan_info"`
 
 	Friendships Friendships `json:"friendships"`
 	// Character would not have a team. Also, team information
@@ -70,20 +69,20 @@ func (c Character) GetName() string {
 	return strings.Join([]string{c.FirstName, c.LastName}, " ")
 }
 
-// Pay pays the amount of money from its balance
-func (c *Character) Pay(amount float32) error {
-	if c.Balance < amount {
-		return errors.New("not enough balance for this entity")
-	}
-	c.Balance -= amount
-	return nil
-}
+// // Pay pays the amount of money from its balance
+// func (c *Character) Pay(amount float32) error {
+// 	if c.Balance < amount {
+// 		return errors.New("not enough balance for this entity")
+// 	}
+// 	c.Balance -= amount
+// 	return nil
+// }
 
-// Paid increases the amount of money in entity's balance.
-func (c *Character) Paid(amount float32) error {
-	c.Balance += amount
-	return nil
-}
+// // Paid increases the amount of money in entity's balance.
+// func (c *Character) Paid(amount float32) error {
+// 	c.Balance += amount
+// 	return nil
+// }
 
 // GetID returns Entity's ID.
 func (c Character) GetID() UID {
@@ -99,11 +98,11 @@ func (c *Character) VisitFacility(f FacilityManager, options []int) {
 	case *Market:
 		if options[0] == 0 {
 			g := f.(*Market).BuyGoods(options[1])
-			RegisterGoods(c.Goods, g)
+			c.Goods.RegisterGoods(g)
 		} else if options[0] == 1 {
-			g := GetGoods(c.Goods, GoodsType(options[1]), options[2])
+			g := c.Goods.GetGoods(GoodsType(options[1]), options[2])
 			f.(*Market).SellGoods(g)
-			UnRegisterGoods(c.Goods, GoodsType(options[1]), options[2])
+			c.Goods.UnRegisterGoods(GoodsType(options[1]), options[2])
 		}
 	case *Hospital:
 		if options[0] == 0 {

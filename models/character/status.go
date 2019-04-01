@@ -1,6 +1,7 @@
 package character
 
 import (
+	"github.com/over-engineering/msa/models/brain"
 	"github.com/over-engineering/msa/models/lifecycle"
 	"github.com/over-engineering/msa/models/needs"
 	"github.com/over-engineering/msa/models/physical"
@@ -12,8 +13,9 @@ type Status struct {
 	lifecycle.LifeCycle `json:"life_cycle"` // range: 0~
 	// Physical
 	physical.Physical `json:"physical"`
-
-	// Mental related features
+	// Brain
+	brain.Brain `json:"brain"`
+	// Needs
 	needs.Needs    `json:"needs"`
 	needs.Hormones `json:"hormones"`
 }

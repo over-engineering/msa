@@ -10,6 +10,7 @@ type ActivityManager interface {
 }
 
 const (
+	MaxActPoint     = 100
 	VisitActPoint   = -60
 	ConsumeActPoint = -30
 	PlayActPoint    = -30
@@ -18,32 +19,52 @@ const (
 
 func ActVisit(a ActivityManager, f FacilityManager, options []int) error {
 	// fmt.Println(options)
+	err := AddActPoint(a, VisitActPoint)
+	if err != nil {
+		return err
+	}
 	a.VisitFacility(f, options)
-	return AddActPoint(a, VisitActPoint)
+	return nil
 }
 
 func ActConsume(a ActivityManager, g GoodsHelper, options []int) error {
+	err := AddActPoint(a, ConsumeActPoint)
+	if err != nil {
+		return err
+	}
 	a.ConsumeGoods(g, options)
-	return AddActPoint(a, ConsumeActPoint)
+	return nil
 }
 
 func ActPlay(a ActivityManager, j JobManager, options []int) error {
+	err := AddActPoint(a, PlayActPoint)
+	if err != nil {
+		return err
+	}
 	a.PlayJob(j, options)
-	return AddActPoint(a, PlayActPoint)
+	return nil
 }
 
 func ActHangOut(a ActivityManager, id UID) error {
+	err := AddActPoint(a, HangOutActPoint)
+	if err != nil {
+		return err
+	}
 	a.HangOut(id)
-	return AddActPoint(a, HangOutActPoint)
+	return nil
 }
 
 func AddActPoint(a ActivityManager, amount int) error {
 	switch a.(type) {
 	case *Character:
-		if a.(*Character).ActPoint < amount {
+		if a.(*Character).ActPoint+amount < 0 {
 			return fmt.Errorf("ActPoint < amount")
 		}
+
 		a.(*Character).ActPoint += amount
+		if a.(*Character).ActPoint > MaxActPoint {
+			a.(*Character).ActPoint = MaxActPoint
+		}
 
 	// case *NPC:
 	default:

@@ -66,6 +66,9 @@ type SmartPhone struct {
 	// TODO: Apps, 통화, 메시지?
 }
 
+func (s *SmartPhone) UpdateByDay() {
+}
+
 func (s SmartPhone) GetPayment() float32 {
 	return s.Payment
 }
@@ -84,6 +87,9 @@ func (s *SmartPhone) Call(st *Status) {
 type Car struct {
 	Goods
 	HousePower float32 `json:house_power`
+}
+
+func (c *Car) UpdateByDay() {
 }
 
 func (car *Car) Ride(st *Status) {
@@ -108,6 +114,9 @@ type House struct {
 	ParkingSpace bool     `json:parking_space`
 }
 
+func (f *House) UpdateByDay() {
+}
+
 func (h *House) Rest(st *Status) {
 	st.ApplyEffects(
 		Effects{
@@ -125,6 +134,11 @@ type Food struct {
 	Mass           float32 `json:"mass"` // kg
 	ExpirationDate int     `json:"expiration_date"`
 }
+
+const (
+	foodNeedsCoe  = 0.1
+	foodFlavorCoe = 0.1
+)
 
 var KcalPerMass = map[UID]float32{
 	AppleID:       0.0521,
@@ -150,14 +164,31 @@ func NewFood(id UID, name string, price float32, flavor float32, mass float32, e
 	}
 }
 
+func (f *Food) UpdateByDay() {
+	f.Price *= (float32(f.ExpirationDate) - 1) / float32(f.ExpirationDate)
+	if f.ExpirationDate < 0 {
+		f.Price = 0
+		f.Flavor *= foodFlavorCoe
+	}
+	f.ExpirationDate -= 1
+}
+
 func (f *Food) Eat(st *Status) {
-	st.ApplyEffects(
-		Effects{
-			Effect{
-				Target: "ConsumedKcal",
-				Value:  -f.Kcal * st.KcKgTranslationRate,
-			},
-		})
+	if f.ExpirationDate < 0 {
+		// TODO: 컨디션 저하
+	}
+
+	es := Effects{
+		Effect{
+			Target: "ConsumedKcal",
+			Value:  -f.Kcal * st.KcKgTranslationRate,
+		},
+		Effect{
+			Target: "Needs",
+			Value:  Needs{FoodNeeds: -f.Flavor * f.Kcal * foodNeedsCoe},
+		},
+	}
+	st.ApplyEffects(es)
 }
 
 func (f *Food) GetExpirationDate() int {
@@ -187,6 +218,10 @@ func NewDrug(id UID, name string, price float32, strength float32, mass float32,
 		Mass:           mass,
 		ExpirationDate: expDate,
 	}
+}
+
+func (d *Drug) UpdateByDay() {
+
 }
 
 func (d *Drug) Eat(st *Status) {

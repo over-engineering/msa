@@ -15,11 +15,37 @@ const (
 	Oxytocin       // 옥시토신, 최고의 행복감
 )
 
+func (hType HormoneType) String() string {
+	names := [6]string{
+		"Serotonin",
+		"Norepinephrine",
+		"Epinephrine",
+		"Dopamine",
+		"Endorphin",
+		"Oxytocin",
+	}
+
+	if hType < Serotonin || hType > Oxytocin {
+		return "Error"
+	}
+
+	return names[hType]
+}
+
 type Hormones map[HormoneType]float32
 
 func (hs Hormones) UpdateValue(v Hormones) {
 	for key, value := range v {
 		hs[key] += value
+
+		// TODO:
+		// if key == Dopamine {
+
+		// }
+
+		if hs[key] < 0 {
+			hs[key] = 0
+		}
 		fmt.Println("Update Hormone", key, value, hs[key])
 	}
 }

@@ -6,17 +6,17 @@ import (
 
 func CreateMentals() models.Mentals {
 	mentals := models.Mentals{
-		models.Ambition:      &models.Mental{Type: models.Ambition, Value: 50},
-		models.Boldness:      &models.Mental{Type: models.Boldness, Value: 50},
-		models.Aggression:    &models.Mental{Type: models.Aggression, Value: 50},
-		models.Predictation:  &models.Mental{Type: models.Predictation, Value: 50},
-		models.Composure:     &models.Mental{Type: models.Composure, Value: 50},
-		models.Concentration: &models.Mental{Type: models.Concentration, Value: 50},
-		models.Immersion:     &models.Mental{Type: models.Immersion, Value: 50},
-		models.Competition:   &models.Mental{Type: models.Competition, Value: 50},
-		models.SelfEsteem:    &models.Mental{Type: models.SelfEsteem, Value: 50},
-		models.Confidence:    &models.Mental{Type: models.Confidence, Value: 50},
-		models.Attention:     &models.Mental{Type: models.Attention, Value: 50},
+		models.Ambition:     &models.Mental{Type: models.Ambition, Value: 50},
+		models.Boldness:     &models.Mental{Type: models.Boldness, Value: 50},
+		models.Aggression:   &models.Mental{Type: models.Aggression, Value: 50},
+		models.Predictation: &models.Mental{Type: models.Predictation, Value: 50},
+		models.Composure:    &models.Mental{Type: models.Composure, Value: 50},
+		// models.Concentration: &models.Mental{Type: models.Concentration, Value: 50},
+		models.Immersion:   &models.Mental{Type: models.Immersion, Value: 50},
+		models.Competition: &models.Mental{Type: models.Competition, Value: 50},
+		models.SelfEsteem:  &models.Mental{Type: models.SelfEsteem, Value: 50},
+		models.Confidence:  &models.Mental{Type: models.Confidence, Value: 50},
+		models.Attention:   &models.Mental{Type: models.Attention, Value: 50},
 	}
 	return mentals
 }

@@ -8,18 +8,29 @@ type GoodsHelper interface {
 	GetName() string
 	GetPrice() float32
 	SetPrice(p float32)
+	UpdateByDay()
 }
 
-func GetGoods(goodsList [][]GoodsHelper, goodsType GoodsType, goodsIndex int) GoodsHelper {
-	return goodsList[goodsType][goodsIndex]
+type GoodsList [][]GoodsHelper
+
+func (gl GoodsList) UpdateByDay() {
+	for _, gs := range gl {
+		for _, g := range gs {
+			g.UpdateByDay()
+		}
+	}
 }
 
-func RegisterGoods(goodsList [][]GoodsHelper, g GoodsHelper) {
-	goodsList[g.GetGoodsType()] = append(goodsList[g.GetGoodsType()], g)
+func (gl GoodsList) GetGoods(goodsType GoodsType, goodsIndex int) GoodsHelper {
+	return gl[goodsType][goodsIndex]
 }
 
-func UnRegisterGoods(goodsList [][]GoodsHelper, goodsType GoodsType, index int) {
-	goodsList[goodsType] = append(goodsList[goodsType][:index], goodsList[goodsType][index+1:]...)
+func (gl GoodsList) RegisterGoods(g GoodsHelper) {
+	gl[g.GetGoodsType()] = append(gl[g.GetGoodsType()], g)
+}
+
+func (gl GoodsList) UnRegisterGoods(goodsType GoodsType, index int) {
+	gl[goodsType] = append(gl[goodsType][:index], gl[goodsType][index+1:]...)
 }
 
 type FoodManager interface {
