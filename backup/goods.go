@@ -1,6 +1,6 @@
 package models
 
-type GoodsType UID
+type GoodsType Type
 
 const (
 	PhoneType GoodsType = iota
@@ -10,11 +10,11 @@ const (
 )
 
 const (
-	Galaxy        UID = 100
-	AppleID       UID = 1000
-	OrangeID          = 1001
-	EnergyDrinkID     = 1002
-	DrugID            = 1003
+	Galaxy        UID = "100"
+	AppleID       UID = "1000"
+	OrangeID          = "1001"
+	EnergyDrinkID     = "1002"
+	DrugID            = "1003"
 )
 
 // base goods struct

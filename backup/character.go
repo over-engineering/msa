@@ -7,7 +7,7 @@ import (
 // Character represents the game character belongs to user
 // Things could be referencing with unique IDs.
 type Character struct {
-	ID        int64   `json:"id,string"`
+	ID        UID     `json:"id,string"`
 	FirstName string  `json:"first_name"`
 	LastName  string  `json:"last_name"`
 	Job       JobType `json:"job_type"`
@@ -62,11 +62,31 @@ func (c *Character) CurrentTeam() *Team {
 	return c.Team
 }
 
-// FullName returns character's full name. This function have to
+// GetName returns character's full name. This function have to
 // consider user's linguistic setting.
-func (c *Character) FullName() string {
+func (c Character) GetName() string {
 	// TODO: user's  linguistic setting check
 	return strings.Join([]string{c.FirstName, c.LastName}, " ")
+}
+
+// // Pay pays the amount of money from its balance
+// func (c *Character) Pay(amount float32) error {
+// 	if c.Balance < amount {
+// 		return errors.New("not enough balance for this entity")
+// 	}
+// 	c.Balance -= amount
+// 	return nil
+// }
+
+// // Paid increases the amount of money in entity's balance.
+// func (c *Character) Paid(amount float32) error {
+// 	c.Balance += amount
+// 	return nil
+// }
+
+// GetID returns Entity's ID.
+func (c Character) GetID() UID {
+	return c.ID
 }
 
 func (c *Character) VisitFacility(f FacilityManager, options []int) {

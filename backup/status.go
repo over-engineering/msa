@@ -51,6 +51,7 @@ type Status struct {
 	Personality Personality `json:"personality"`
 }
 
+// ApplyEffects apply effects to status one by one.
 func (s *Status) ApplyEffects(es Effects) {
 	for _, e := range es {
 		switch {

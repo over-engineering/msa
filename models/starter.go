@@ -1,9 +1,12 @@
 package models
 
-import "math/rand"
+import (
+	"math/rand"
+	"time"
+)
 
 var StatusType1 = Status{
-	LifeCycle: LifeCycle{Age: 20, LifeSpan: 100},
+	LifeCycle: LifeCycle{Age: 20, Dead: time.Now().AddDate(10, 5, 5)},
 	Health:    100,
 	Height:    170,
 	Weight:    70,
@@ -57,8 +60,9 @@ func StarterStatus() *Status {
 	}
 
 	NewStatus := &Status{
-		Talents:   NewTalents([]float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
-		LifeCycle: LifeCycle{Age: randList[0] + 20, LifeSpan: randList[1] + 100, Generation: 0},
+
+		Talents: NewTalents([]float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
+		// LifeCycle: LifeCycle{Age: randList[0] + 20, LifeSpan: randList[1] + 100, Generation: 0},
 		Brain: Brain{
 			AthleticBrain: NewSubBrain(0, []float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
 			MusicBrain:    NewSubBrain(1, []float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
@@ -66,6 +70,8 @@ func StarterStatus() *Status {
 			MathBrain:     NewSubBrain(3, []float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
 			VisualBrain:   NewSubBrain(4, []float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
 		},
+		// Talents: NewTalents([]float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
+		// LifeCycle: LifeCycle{Age: randList[0] + 20, LifeSpan: randList[1] + 100, Generation: 0},
 
 		Health: randList[2] + 50,
 		Height: randList[3] + 170,
