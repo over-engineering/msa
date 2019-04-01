@@ -59,12 +59,12 @@ func StarterStatus() *Status {
 	NewStatus := &Status{
 		Talents:   NewTalents([]float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
 		LifeCycle: LifeCycle{Age: randList[0] + 20, LifeSpan: randList[1] + 100, Generation: 0},
-		Brain: []BrainManager{
-			NewAthleticBrain([]float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
-			NewMusicBrain([]float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
-			NewLanguageBrain([]float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
-			NewMathBrain([]float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
-			NewVisualBrain([]float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
+		Brain: Brain{
+			AthleticBrain: NewSubBrain(0, []float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
+			MusicBrain:    NewSubBrain(1, []float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
+			LanguageBrain: NewSubBrain(2, []float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
+			MathBrain:     NewSubBrain(3, []float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
+			VisualBrain:   NewSubBrain(4, []float32{randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50, randList[0] + 50}),
 		},
 
 		Health: randList[2] + 50,

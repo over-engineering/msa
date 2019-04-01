@@ -165,9 +165,9 @@ func NewFood(id UID, name string, price float32, flavor float32, mass float32, e
 }
 
 func (f *Food) UpdateByDay() {
-	f.Price *= (float32(f.ExpirationDate) - 1) / float32(f.ExpirationDate)
+	// f.Price *= (float32(f.ExpirationDate) - 1) / float32(f.ExpirationDate)
 	if f.ExpirationDate < 0 {
-		f.Price = 0
+		// f.Price = 0
 		f.Flavor *= foodFlavorCoe
 	}
 	f.ExpirationDate -= 1

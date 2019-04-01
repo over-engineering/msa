@@ -13,7 +13,7 @@ type Status struct {
 	LifeCycle LifeCycle `json:"life_cycle"` // range: 0~
 
 	// brain
-	Brain []BrainManager `json:"brain"`
+	Brain Brain `json:"brain"`
 
 	// 신체 상태
 	Health  float32               `json:"health"` // range: 0~100
@@ -56,8 +56,16 @@ func (s *Status) ApplyEffects(es Effects) {
 		switch {
 		case e.Target == "Talents":
 			s.Talents.UpdateValue(e.Value.(Talents))
-		case e.Target == "Brain":
-			UpdateBrain(s.Brain, e.Value.(BrainManager), s.Talents)
+		case e.Target == "AtheleticBrain":
+			s.Brain.AthleticBrain.UpdateValue(e.Value.(SubBrain), s.Talents[Athletic])
+		case e.Target == "MusicBrain":
+			s.Brain.MusicBrain.UpdateValue(e.Value.(SubBrain), s.Talents[Music])
+		case e.Target == "LanguageBrain":
+			s.Brain.LanguageBrain.UpdateValue(e.Value.(SubBrain), s.Talents[Language])
+		case e.Target == "MathBrain":
+			s.Brain.MathBrain.UpdateValue(e.Value.(SubBrain), s.Talents[Math])
+		case e.Target == "VisualBrain":
+			s.Brain.VisualBrain.UpdateValue(e.Value.(SubBrain), s.Talents[Visualization])
 		case e.Target == "Personality":
 			s.Personality.UpdateValue(e.Value.(Personality))
 		case e.Target == "Needs":
