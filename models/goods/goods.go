@@ -1,20 +1,9 @@
 package goods
 
 import (
-	"github.com/over-engineering/msa/models/character"
 	"github.com/over-engineering/msa/models/types"
 	"github.com/over-engineering/msa/models/world/space"
 )
-
-type GoodsManager interface {
-	GetID() types.UID
-	GetGoodsType() GoodsType
-	GetName() string
-	GetPrice() float32
-	SetPrice(p float32)
-	UpdateByDay()
-	Use(by *character.Character, option int, args []string) error
-}
 
 type GoodsType types.Type
 
@@ -24,6 +13,8 @@ const (
 	FoodType                  // 3
 	HouseType                 // 4
 )
+
+type OwnedList map[GoodsType][]GoodsManager
 
 // Goods represents the basic structure of all kinds of goods.
 type Goods struct {

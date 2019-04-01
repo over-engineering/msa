@@ -9,13 +9,6 @@ import (
 	"github.com/over-engineering/msa/models/types"
 )
 
-// Executant defines implementation functions with contracts.
-type Executant interface {
-	Implement(b finance.Banker) error
-	ImposeOn(vid types.UID, b finance.Banker) error
-	GiveBonus(bid types.UID, b finance.Banker) error
-}
-
 // Contract interface represents all kinds of contracts in the game.
 // 컨트랙트라는 건 어떤 entity와 entity 간의 약속. 즉 가장 기본적인 구조는 아래와
 // 같이 갑, 을 + 해당 계약의 ID가 있다고 판단했음.
