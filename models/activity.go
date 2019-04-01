@@ -72,3 +72,5 @@ func AddActPoint(a ActivityManager, amount int) error {
 
 	return nil
 }
+
+
