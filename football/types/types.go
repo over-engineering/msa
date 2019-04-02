@@ -7,17 +7,17 @@ type Type int
 type UID string
 
 // JobType is an enum for various job types.
-type JobType Type
+// type JobType Type
 
 // EquipmentType is an enum for equipment types.
-type EquipmentType Type
+// type EquipmentType Type
 
-const (
-	EQUIP_HEAD       EquipmentType = iota // 0
-	EQUIP_UPPERBODY                       // 1
-	EQUIP_LOWERBODY                       // 2
-	EQUIP_LEFT_HAND                       // 3
-	EQUIP_RIGHT_HAND                      // 4
-	EQUIP_LEFT_FOOT                       // 5
-	EQUIP_RIGHT_FOOT                      // 6
-)
+// const (
+// 	EQUIP_HEAD       EquipmentType = iota // 0
+// 	EQUIP_UPPERBODY                       // 1
+// 	EQUIP_LOWERBODY                       // 2
+// 	EQUIP_LEFT_HAND                       // 3
+// 	EQUIP_RIGHT_HAND                      // 4
+// 	EQUIP_LEFT_FOOT                       // 5
+// 	EQUIP_RIGHT_FOOT                      // 6
+// )

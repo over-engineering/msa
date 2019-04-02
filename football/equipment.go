@@ -1,49 +1,120 @@
 package football
 
-import "go/types"
+import (
+	"fmt"
+
+	"github.com/over-engineering/msa/football/types"
+)
+
+// import "go/types"
+
+// import "github.com/over-engineering/msa/models/types"
 
 // Equipment interface represents interface for equipments.
 // All equipments should have Type, Effect and Durability.
-type Equipment interface {
-	GetType() EquipmentType
-}
+// type Equipment interface {
+// 	GetType() EquipmentType
+// }
 
 // EquipmentType is enum for various equipment types.
 type EquipmentType types.Type
 
-// const (
-// 	EQUIP_HEAD       EquipmentType = iota // 0
-// 	EQUIP_UPPERBODY                       // 1
-// 	EQUIP_LOWERBODY                       // 2
-// 	EQUIP_LEFT_HAND                       // 3
-// 	EQUIP_RIGHT_HAND                      // 4
-// 	EQUIP_LEFT_FOOT                       // 5
-// 	EQUIP_RIGHT_FOOT                      // 6
-// )
+const (
+	EQUIP_HEAD       EquipmentType = iota // 0
+	EQUIP_UPPERBODY                       // 1
+	EQUIP_LOWERBODY                       // 2
+	EQUIP_LEFT_HAND                       // 3
+	EQUIP_RIGHT_HAND                      // 4
+	EQUIP_FOOT                            // 5
+)
 
-// type HeadGear struct {
-// 	ID      types.UID `json:"id"`
-// 	Name    string    `json:"name"`
-// 	Price   float32   `json:"price"`
-// 	Effects []Effect  `json:"effect"`
-// 	// Duration
+type GlobalEquipmentMap map[types.UID]EquipmentList
+
+var GEquipmentMap = GlobalEquipmentMap{}
+
+func FindEquipmentListByCharacterID(id types.UID) EquipmentList {
+	var eList EquipmentList
+	if eList, ok := GEquipmentMap[id]; ok {
+		return eList
+	} else {
+		// Read from db
+	}
+
+	return eList
+}
+
+type EquipmentMap map[types.UID]*Equipment
+
+var EqMap = EquipmentMap{}
+
+type EquipmentList []*Equipment
+
+func MakeNewEquipmentList() EquipmentList {
+	return EquipmentList{
+		EQUIP_HEAD:       nil,
+		EQUIP_UPPERBODY:  nil,
+		EQUIP_LOWERBODY:  nil,
+		EQUIP_LEFT_HAND:  nil,
+		EQUIP_RIGHT_HAND: nil,
+		EQUIP_FOOT:       nil,
+	}
+}
+
+// type EquipmentList struct {
+// 	// ID represents character or entity that have this ability
+// 	ID         types.UID                    `json:"id"`
+// 	Equipments map[EquipmentType]*Equipment `json:"equipments"`
 // }
+type Equipments struct {
+	Equipments []Equipment `json:"equipments"`
+}
 
-// func (h *HeadGear) GetType() EquipmentType {
-// 	return EQUIP_HEAD
-// }
+type Equipment struct {
+	ID            types.UID               `json:"id"`
+	EquipmentType EquipmentType           `json:"equipment_type"`
+	TargetAbility map[AbilityType]float32 `json:"target_ability"`
+}
 
-// func (h *HeadGear) GetID() UID {
-// 	return h.ID
-// }
+func RegisterEquipments(es []Equipment) {
+	for i, e := range es {
+		EqMap[e.ID] = &es[i]
+		// newEq := &Equipment{ID: e.ID, EquipmentType: e.EquipmentType, TargetAbility: e.TargetAbility}
+		// EqMap[e.ID] = newEq
+		// fmt.Println(e)
+	}
 
-// func (h *HeadGear) GetName() string {
-// 	return h.Name
-// }
+	// TODO: equipment to db server
+}
 
-// func (h *HeadGear) GetPrice() float32 {
-// 	return h.Price
-// }
+func (e *Equipment) Equip(a *Ability, eList EquipmentList) error {
+	// if a.ID != eList.ID {
+	// 	return fmt.Errorf("Diffrent Ability, EquipmentList ID")
+	// }
 
-// 고칠 수 있는 것 vs 없는 것 먹는거 장비 뭐 이런것들
-// 엄청 구체적인 예시들을 각각 모델링하고나서 생각해보는 걸로
+	if val := eList[e.EquipmentType]; val != nil {
+		return fmt.Errorf("Equip exist")
+	}
+
+	a.AddValue(e.TargetAbility)
+
+	eList[e.EquipmentType] = e
+
+	return nil
+}
+
+func (e *Equipment) UnEquip(a *Ability, eList EquipmentList) error {
+	// if a.ID != eList.ID {
+	// 	return fmt.Errorf("Diffrent Ability, EquipmentList ID")
+	// }
+
+	if val := eList[e.EquipmentType]; val == nil {
+		return fmt.Errorf("Equip doesn't exist")
+	}
+
+	a.SubValue(e.TargetAbility)
+
+	eList[e.EquipmentType] = nil
+	// delete(eList, e.EquipmentType)
+
+	return nil
+}
