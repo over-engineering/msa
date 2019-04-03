@@ -1,10 +1,31 @@
 package football
 
-import "github.com/over-engineering/msa/football/types"
+import (
+	"fmt"
+
+	"github.com/over-engineering/msa/football/types"
+)
 
 type TrainingMap map[types.UID]*Training
 
 var TrMap = TrainingMap{}
+
+func FindTrainingByID(id types.UID) (*Training, error) {
+	fmt.Println(TrMap)
+	tr := TrMap[id]
+	if tr == nil {
+		// TODO: Read from db
+	}
+	return tr, nil
+}
+
+func RegisterTrainings(ts []Training) {
+	for i, e := range ts {
+		TrMap[e.ID] = &ts[i]
+	}
+
+	// TODO: training to db server
+}
 
 type Trainings struct {
 	Trainings []Training `json:"trainings"`
@@ -15,14 +36,6 @@ type Training struct {
 	TargetAbility map[AbilityType]float32 `json:"target_ability"`
 	// Level         int                     `json:"level"`
 	// Time          float32                 `json:"time"`
-}
-
-func RegisterTrainings(ts []Training) {
-	for i, e := range ts {
-		TrMap[e.ID] = &ts[i]
-	}
-
-	// TODO: training to db server
 }
 
 // func NewTraining(id types.UID, targetAbility map[AbilityType]float32) *Training {

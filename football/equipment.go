@@ -6,16 +6,6 @@ import (
 	"github.com/over-engineering/msa/football/types"
 )
 
-// import "go/types"
-
-// import "github.com/over-engineering/msa/models/types"
-
-// Equipment interface represents interface for equipments.
-// All equipments should have Type, Effect and Durability.
-// type Equipment interface {
-// 	GetType() EquipmentType
-// }
-
 // EquipmentType is enum for various equipment types.
 type EquipmentType types.Type
 
@@ -28,29 +18,37 @@ const (
 	EQUIP_FOOT                            // 5
 )
 
-type GlobalEquipmentMap map[types.UID]EquipmentList
+type GlobalEquipmentMap map[types.UID]EquipList
 
 var GEquipmentMap = GlobalEquipmentMap{}
 
-func FindEquipmentListByCharacterID(id types.UID) EquipmentList {
-	var eList EquipmentList
+func FindEquipListByCharacterID(id types.UID) (EquipList, error) {
+	var eList EquipList
 	if eList, ok := GEquipmentMap[id]; ok {
-		return eList
+		return eList, nil
 	} else {
 		// Read from db
 	}
 
-	return eList
+	return eList, nil
 }
 
 type EquipmentMap map[types.UID]*Equipment
 
 var EqMap = EquipmentMap{}
 
-type EquipmentList []*Equipment
+func FindEquipmentByID(id types.UID) (*Equipment, error) {
+	eq := EqMap[id]
+	if eq == nil {
+		// TODO: Read from db
+	}
+	return eq, nil
+}
 
-func MakeNewEquipmentList() EquipmentList {
-	return EquipmentList{
+type EquipList []*Equipment
+
+func RegisterEquipList(id types.UID) {
+	eList := EquipList{
 		EQUIP_HEAD:       nil,
 		EQUIP_UPPERBODY:  nil,
 		EQUIP_LOWERBODY:  nil,
@@ -58,13 +56,15 @@ func MakeNewEquipmentList() EquipmentList {
 		EQUIP_RIGHT_HAND: nil,
 		EQUIP_FOOT:       nil,
 	}
+	GEquipmentMap[id] = eList
+	// TODO: Write to db
 }
 
-// type EquipmentList struct {
-// 	// ID represents character or entity that have this ability
-// 	ID         types.UID                    `json:"id"`
-// 	Equipments map[EquipmentType]*Equipment `json:"equipments"`
-// }
+func UnRegisterEquipList(id types.UID) {
+	GEquipmentMap[id] = nil
+	// TODO: Delete in db
+}
+
 type Equipments struct {
 	Equipments []Equipment `json:"equipments"`
 }
@@ -86,7 +86,7 @@ func RegisterEquipments(es []Equipment) {
 	// TODO: equipment to db server
 }
 
-func (e *Equipment) Equip(a *Ability, eList EquipmentList) error {
+func (e *Equipment) Equip(a *Ability, eList EquipList) error {
 	// if a.ID != eList.ID {
 	// 	return fmt.Errorf("Diffrent Ability, EquipmentList ID")
 	// }
@@ -101,7 +101,7 @@ func (e *Equipment) Equip(a *Ability, eList EquipmentList) error {
 	return nil
 }
 
-func (e *Equipment) UnEquip(a *Ability, eList EquipmentList) error {
+func (e *Equipment) UnEquip(a *Ability, eList EquipList) error {
 	// if a.ID != eList.ID {
 	// 	return fmt.Errorf("Diffrent Ability, EquipmentList ID")
 	// }

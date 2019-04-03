@@ -1,7 +1,7 @@
 {
     "trainings": [
         {
-            "id": "training00",
+            "id": "training0",
             "target_ability": {
                 "6": 3,
                 "8": 2,
@@ -10,7 +10,7 @@
               }
         },
         {
-            "id": "training01",
+            "id": "training1",
             "target_ability": {
                 "6": 5,
                 "8": 4,

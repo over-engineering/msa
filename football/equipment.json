@@ -1,7 +1,7 @@
 {
     "equipments": [
       {
-        "id": "equipment00",
+        "id": "equipment0",
         "equipment_type": 5,
         "target_ability": {
           "6": 5,
@@ -11,7 +11,7 @@
         }
       },
       {
-        "id": "equipment01",
+        "id": "equipment1",
         "equipment_type": 5,
         "target_ability": {
           "6": 10,

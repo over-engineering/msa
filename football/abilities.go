@@ -66,6 +66,7 @@ var globalAbilityMap = GlobalAbilitytMap{}
 
 func FindAbilityByID(id types.UID) (*Ability, error) {
 	a := globalAbilityMap[id]
+
 	if a == nil {
 		// TODO: Read from db
 	}
@@ -111,9 +112,9 @@ func UpdateAbility(ability *Ability) error {
 	return nil
 }
 
-func DeleteAbility(id types.UID) {
+func UnRegisterAbility(id types.UID) {
 	globalAbilityMap[id] = nil
-	// TODO: delete ability in db
+	// TODO: Delete ability in db
 }
 
 type Ability struct {
