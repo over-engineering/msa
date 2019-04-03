@@ -1,6 +1,10 @@
 package football
 
-import "github.com/over-engineering/msa/football/types"
+import (
+	"fmt"
+
+	"github.com/over-engineering/msa/football/types"
+)
 
 type AbilityType types.Type
 
@@ -60,22 +64,63 @@ type GlobalAbilitytMap map[types.UID]*Ability
 
 var globalAbilityMap = GlobalAbilitytMap{}
 
-type Ability struct {
-	// ID represents character or entity that have this ability
-	ID          types.UID `json:"id"`
-	AbilityList []float32 `json:"ability_list"`
+func FindAbilityByID(id types.UID) (*Ability, error) {
+	a := globalAbilityMap[id]
+	if a == nil {
+		// TODO: Read from db
+	}
+	return a, nil
 }
 
-func NewAbility(id types.UID, vList []float32) *Ability {
-	aList := []float32{}
-	for _, val := range vList {
-		aList = append(aList, val)
+func RegisterAbility(ability *Ability) error {
+	a, err := FindAbilityByID(ability.ID)
+	if err != nil {
+		return err
+	}
+	if a != nil {
+		return fmt.Errorf("Ability", ability.ID, "exist")
 	}
 
-	ability := &Ability{ID: id, AbilityList: aList}
-	globalAbilityMap[id] = ability
+	ability.AbilityList = []float32{}
+	for _, val := range ability.AbilityIvList {
+		ability.AbilityList = append(ability.AbilityList, val)
+	}
 
-	return ability
+	globalAbilityMap[ability.ID] = ability
+
+	// TODO: Write to db
+	return nil
+}
+
+func UpdateAbility(ability *Ability) error {
+	a, err := FindAbilityByID(ability.ID)
+	if err != nil {
+		return err
+	}
+	if a == nil {
+		return fmt.Errorf("Ability", ability.ID, "does not exist")
+	}
+
+	for i, val := range a.AbilityIvList {
+		a.AbilityList[i] = a.AbilityList[i] - val + ability.AbilityIvList[i]
+		a.AbilityIvList[i] = ability.AbilityIvList[i]
+
+	}
+	// TODO: Write to db
+
+	return nil
+}
+
+func DeleteAbility(id types.UID) {
+	globalAbilityMap[id] = nil
+	// TODO: delete ability in db
+}
+
+type Ability struct {
+	// ID represents character or entity that have this ability
+	ID            types.UID `json:"id"`
+	AbilityIvList []float32 `json:"ability_iv_list"`
+	AbilityList   []float32 `json:"ability_list"`
 }
 
 func (a *Ability) AddValue(vMap map[AbilityType]float32) {

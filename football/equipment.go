@@ -96,7 +96,6 @@ func (e *Equipment) Equip(a *Ability, eList EquipmentList) error {
 	}
 
 	a.AddValue(e.TargetAbility)
-
 	eList[e.EquipmentType] = e
 
 	return nil
@@ -112,7 +111,6 @@ func (e *Equipment) UnEquip(a *Ability, eList EquipmentList) error {
 	}
 
 	a.SubValue(e.TargetAbility)
-
 	eList[e.EquipmentType] = nil
 	// delete(eList, e.EquipmentType)
 
