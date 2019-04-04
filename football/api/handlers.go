@@ -12,6 +12,12 @@ import (
 	"github.com/over-engineering/msa/football/types"
 )
 
+// func CreateCharacter(w http.ResponseWriter, r *http.Request) {
+// 	w.Header().Set("Content-Type", "application/json")
+// 	params := mux.Vars(r)
+// 	football.CreateCharacter(CommonClient)
+// }
+
 func GetAbility(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	params := mux.Vars(r)
@@ -25,6 +31,7 @@ func CreateAbility(w http.ResponseWriter, r *http.Request) {
 	_ = json.NewDecoder(r.Body).Decode(&ability)
 	football.RegisterAbility(&ability)
 	football.RegisterEquipList(ability.ID)
+	fmt.Println(ability)
 	json.NewEncoder(w).Encode(ability)
 }
 

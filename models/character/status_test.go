@@ -7,7 +7,7 @@ import (
 )
 
 func ExampleNewStatus() {
-	ns := NewStatus()
+	ns := NewStatus(float32(50))
 	fmt.Println(ns)
 	ns.Physical.Muscles = map[physical.MuscleType]*physical.Muscle{
 		physical.Biceps: &physical.Muscle{

@@ -12,6 +12,16 @@ type Brain struct {
 	VisualBrain   SubBrain `json:"visual_brain`
 }
 
+func NewBrain(val float32) Brain {
+	return Brain{
+		AthleticBrain: NewSubBrain(0, []float32{val, val, val, val, val}),
+		MusicBrain:    NewSubBrain(0, []float32{val, val, val, val, val}),
+		LanguageBrain: NewSubBrain(0, []float32{val, val, val, val, val}),
+		MathBrain:     NewSubBrain(0, []float32{val, val, val, val, val}),
+		VisualBrain:   NewSubBrain(0, []float32{val, val, val, val, val}),
+	}
+}
+
 type BrainType types.Type
 
 const (

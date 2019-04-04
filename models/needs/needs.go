@@ -28,7 +28,16 @@ var NeedsTable = []map[HormoneType]float32{
 
 const NeedsThreshold = 100
 
-type Needs map[NeedsType]float32
+// type Needs map[NeedsType]float32
+type Needs []float32
+
+func NewNeeds(val float32) Needs {
+	needs := Needs{}
+	for i := Food; i <= Achievement; i++ {
+		needs = append(needs, val)
+	}
+	return needs
+}
 
 func (ns Needs) UpdateValue(v Needs, hs Hormones) {
 	hormoneMap := Hormones{}
@@ -36,7 +45,7 @@ func (ns Needs) UpdateValue(v Needs, hs Hormones) {
 		if value == 0 {
 			continue
 		}
-		ns.UpdateHormoneMap(key, ns[key], value, hormoneMap)
+		ns.UpdateHormoneMap(NeedsType(key), ns[key], value, hormoneMap)
 		ns[key] += value
 	}
 

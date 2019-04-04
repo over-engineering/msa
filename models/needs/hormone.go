@@ -19,7 +19,16 @@ const (
 	Oxytocin       // 옥시토신, 최고의 행복감
 )
 
-type Hormones map[HormoneType]float32
+// type Hormones map[HormoneType]float32
+type Hormones []float32
+
+func NewHormones(val float32) Hormones {
+	hormones := Hormones{}
+	for i := Serotonin; i <= Oxytocin; i++ {
+		hormones = append(hormones, val)
+	}
+	return hormones
+}
 
 func (hs Hormones) UpdateValue(v Hormones) {
 	for key, value := range v {
