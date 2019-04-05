@@ -1,4 +1,4 @@
-package football
+package tests
 
 import (
 	"fmt"

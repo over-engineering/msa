@@ -50,6 +50,11 @@ type Character struct {
 	finance.Finance `json:"finance"`
 }
 
+func FindCharacterByID(id types.UID) *Character {
+	// TODO:
+	return &Character{}
+}
+
 // NewCharacter returns new Character object
 func NewCharacter(
 	uid types.UID,
