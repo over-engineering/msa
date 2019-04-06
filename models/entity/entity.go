@@ -11,7 +11,7 @@ import (
 	"github.com/over-engineering/msa/models/status"
 	"github.com/over-engineering/msa/models/talent"
 	"github.com/over-engineering/msa/models/types"
-	world "github.com/over-engineering/msa/models/world/space"
+	"github.com/over-engineering/msa/models/world/space"
 )
 
 type Individual struct {
@@ -19,7 +19,7 @@ type Individual struct {
 	FirstName    string           `json:"first_name"`
 	LastName     string           `json:"last_name"`
 	JobType      job.Type         `json:"job_type"`
-	Location     world.Location   `json:"location"`
+	Location     space.Location   `json:"location"`
 	Conditions   []status.Updater `json:"conditions"`
 	Contracts    []types.UID      `json:"contracts"`
 	GoodsList    []types.UID      `json:"goods_list"`

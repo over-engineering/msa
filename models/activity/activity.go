@@ -3,18 +3,18 @@ package activity
 import (
 	"time"
 
-	"github.com/over-engineering/msa/models/character"
 	"github.com/over-engineering/msa/models/goods"
 	"github.com/over-engineering/msa/models/types"
+	"github.com/over-engineering/msa/models/user"
 	"github.com/over-engineering/msa/models/world/space"
 )
 
 var gom goods.GlobalOwnerMap = goods.GlobalOwnerMap{}
 var ggm goods.GlobalGoodsMap = goods.GlobalGoodsMap{}
 
-func Visit(c *character.Character, to world.Location, vehicleId types.UID) error {
+func Visit(c *user.Character, to space.Location, vehicleId types.UID) error {
 	current := c.Location
-	distance := world.Distance(current, to)
+	distance := space.Distance(current, to)
 	if vehicleId == "" {
 		// On foot
 		// Vehicle에 따라 헬스 깎이는게 다르게

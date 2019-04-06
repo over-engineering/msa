@@ -6,7 +6,7 @@ import (
 
 	"github.com/over-engineering/msa/models/types"
 	"github.com/over-engineering/msa/models/user"
-	world "github.com/over-engineering/msa/models/world/space"
+	"github.com/over-engineering/msa/models/world/space"
 )
 
 type GlobalGoodsMap map[types.CID]*Goods
@@ -88,7 +88,7 @@ type HouseInfos struct {
 	ID types.CID `json:"id"`
 	// 면적 단위
 	Acreage        float32        `json:"acreage"`
-	Location       world.Location `json:"place"`
+	Location       space.Location `json:"place"`
 	ParkingNumber  int            `json:"parking_number"`
 	RestEfficiency float32        `json:"rest_efficiency"`
 }

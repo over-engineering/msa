@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/over-engineering/msa/models/types"
-	world "github.com/over-engineering/msa/models/world/space"
+	"github.com/over-engineering/msa/models/world/space"
 )
 
 var GenesisEntityMap map[types.UID]struct{}
@@ -50,7 +50,7 @@ type TransitionBlock struct {
 	Transitions []Transition `json:"transitions"`
 }
 
-var GenesisFacilityMap map[types.UID]*world.Facility
+var GenesisFacilityMap map[types.UID]*space.Facility
 
 var GlobalFacilityChain []TransitionBlock
 
