@@ -1,160 +1,165 @@
 package goods
 
 import (
+	"errors"
+	"time"
+
 	"github.com/over-engineering/msa/models/types"
-	"github.com/over-engineering/msa/models/world/space"
+	"github.com/over-engineering/msa/models/user"
+	world "github.com/over-engineering/msa/models/world/space"
 )
 
-type GoodsType types.Type
+type GlobalGoodsMap map[types.CID]*Goods
 
-const (
-	SmartPhoneType = iota + 1 // 1
-	CarType                   // 2
-	FoodType                  // 3
-	HouseType                 // 4
-)
-
-type OwnedList map[GoodsType][]GoodsManager
+type GlobalUniqueInfoMap map[types.CID]UniqueInfos
 
 // Goods represents the basic structure of all kinds of goods.
 type Goods struct {
-	ID          types.UID `json:"id"`
-	GoodsType   GoodsType `json:"goods_type"`
-	Name        string    `json:"name"`
-	Brand       string    `json:"brand"`
-	Price       float32   `json:"price"`
-	Description string    `json:"description"`
+	ID    types.CID `json:"id"`
+	Name  string    `json:"name"`
+	Brand string    `json:"brand"`
+	Price float32   `json:"price"`
 }
 
-func (g *Goods) GetID() types.UID {
-	return g.ID
+// InnerCameraInfos represents the pixel infos of camera.
+type InnerCameraInfos struct {
+	ID         types.CID `json:"id"`
+	Horizontal int       `json:"horizontal"`
+	Vertical   int       `json:"vertical"`
 }
 
-func (g *Goods) GetGoodsType() GoodsType {
-	return g.GoodsType
+// SmartPhoneInfos represents unique information of smartphone.
+type SmartPhoneInfos struct {
+	ID               types.CID `json:"id"`
+	Width            float32   `json:"width"`
+	Height           float32   `json:"height"`
+	Memory           float32   `json:"memory"`
+	InnerCameraInfos `json:"inner_camera_infos"`
 }
 
-func (g *Goods) GetName() string {
-	return g.Name
-}
-
-func (g *Goods) GetPrice() float32 {
-	return g.Price
-}
-
-func (g *Goods) SetPrice(p float32) {
-	g.Price = p
-}
-
-func (g *Goods) GetBrand() string {
-	return g.Brand
-}
-
-type Camera struct {
-	Goods
-}
-
+// SmartPhone represents dynamic informations about smartphone object.
 type SmartPhone struct {
-	Goods `json:"goods"` // embedded struct
-
-	ContractID types.UID `json:"contract_id"`
-	Camera     *Camera   `json:"camera"`
-	Memory     float32   `json:"memory"`
-	Battery    float32   `json:"battery"`
-	// Duration
-	// Effect
-	// TODO: Apps, 통화, 메시지?
+	ID          types.UID   `json:"id"`
+	CommonID    types.CID   `json:"common_id"`
+	ContractID  types.UID   `json:"contract_id"`
+	Bought      time.Time   `json:"bought"`
+	Durability  float32     `json:"durability"`
+	Battery     float32     `json:"battery"`
+	ContactList []types.UID `json:"contact_list"`
 }
 
+// Call ...
 func (s *SmartPhone) Call() {
 }
 
+// CarInfos represents unique informations about Car object.
+type CarInfos struct {
+	FuelEfficiency float32 `json:"fuel_efficiency"`
+	MaxFuelLevel   float32 `json:"max_fuel_level"`
+}
+
+// Car represents dynamic informations about car object.
 type Car struct {
-	Goods
-	HorsePower float32 `json:"horse_power"`
+	ID             types.UID `json:"id"`
+	CommonID       types.CID `json:"common_id"`
+	ContractID     types.UID `json:"contract_id"`
+	Bought         time.Time `json:"bought"`
+	DrivenDistance float32   `json:"driven_distance"`
+	Durability     float32   `json:"durability"`
+	FuelLevel      float32   `json:"fuel_level"`     // 임시
+	MaxFuelLevel   float32   `json:"max_fuel_level"` // 임시
+	FuelEfficiency float32   `json:"fuel_efficiency"`
 }
 
-func (car *Car) Ride() {
-
+// Ride functino updates car's fuel level.
+func (c *Car) Ride(distance float32) error {
+	fc := distance / c.FuelEfficiency
+	if c.FuelLevel <= fc {
+		return errors.New("not enough fuel level")
+	}
+	c.FuelLevel -= fc
+	c.DrivenDistance += distance
+	// TODO: Maybe update logic should be here.
+	return nil
 }
 
-type House struct {
-	Goods
+// HouseInfos represents unique informations about House object.
+type HouseInfos struct {
+	ID types.CID `json:"id"`
 	// 면적 단위
-	Acreage      float32        `json:acreage`
-	Location     world.Location `json:place`
-	ParkingSpace bool           `json:parking_space`
+	Acreage        float32        `json:"acreage"`
+	Location       world.Location `json:"place"`
+	ParkingNumber  int            `json:"parking_number"`
+	RestEfficiency float32        `json:"rest_efficiency"`
 }
 
-func (h *House) Rest() {
+// House represents dynamic informations about House object.
+type House struct {
+	ID         types.UID `json:"uid"`
+	CommonID   types.CID `json:"common_id"`
+	ContractID types.UID `json:"contract_id"`
+	Bought     time.Time `json:"bought"`
+}
 
+// Rest updates character's health with efficiency and hours.
+func (h House) Rest(hi HouseInfos, c *user.Character, hours float32) {
+	c.Status.Health += hi.RestEfficiency * float32(hours) * c.Status.Physical.Resilience
+}
+
+type FoodInfos struct {
+	ID             types.CID `json:"id"`
+	Flavor         float32   `json:"flavor"`
+	KcalPerMass    float32   `json:"kcal_per_mass"`
+	Expiration     float32   `json:"expiration"`
+	ExpirationRate float32   `json:"expiration_rate"`
 }
 
 type Food struct {
-	*Goods
-	Flavor         float32 `json:"flavor"`
-	Kcal           float32 `json:"kcal"` // kcal
-	Mass           float32 `json:"mass"` // kg
-	ExpirationDate int     `json:"expiration_date"`
+	ID             types.UID `json:"id"`
+	CommonID       types.CID `json:"common_id"`
+	Kcal           float32   `json:"kcal"` // kcal
+	Mass           float32   `json:"mass"` // kg
+	Expiration     float32   `json:"expiration"`
+	ExpirationRate float32   `json:"expiration_rate"` // 임시
+	Refrigerated   float32   `json:"refrigerated"`
 }
 
-var KcalPerMass = map[string]float32{
-	"AppleID":       0.0521,
-	"OrangeID":      0.04,
-	"EnergyDrinkID": 0.1,
-	"DrugID":        0.07,
+func (f *Food) UpdateByDay() error {
+	f.Expiration -= f.ExpirationRate * f.Refrigerated
+	return nil
 }
 
-func NewFood(id types.UID, name string, price float32, flavor float32, mass float32, expDate int) *Food {
-	return &Food{
-		Goods: &Goods{
-			ID:        id,
-			GoodsType: FoodType,
-			Name:      name,
-			// Brand: ,
-			Price: price,
-			// Description: ,
-		},
-		Flavor:         flavor,
-		Kcal:           KcalPerMass[string(id)] * mass,
-		Mass:           mass,
-		ExpirationDate: expDate,
-	}
-}
+// func (f *Food) Eat() {
 
-func (f *Food) Eat() {
+// }
 
-}
-
-func (f *Food) GetExpirationDate() int {
-	return f.ExpirationDate
-}
-
+// Drug represents the dynamic informations about the drug object.
 type Drug struct {
-	*Goods
-	Strength       float32 `json:"strength"`
-	Kcal           float32 `json:"kcal"` // kcal
-	Mass           float32 `json:"mass"` // kg
-	ExpirationDate int     `json:"expiration_date"`
+	ID         types.UID `json:"id"`
+	CommonID   types.CID `json:"common_id"`
+	Strength   float32   `json:"strength"`
+	Kcal       float32   `json:"kcal"` // kcal
+	Mass       float32   `json:"mass"` // kg
+	Expiration float32   `json:"expiration"`
 }
 
-func NewDrug(id types.UID, name string, price float32, strength float32, mass float32, expDate int) *Drug {
-	return &Drug{
-		Goods: &Goods{
-			ID:        id,
-			GoodsType: FoodType,
-			Name:      name,
-			// Brand: ,
-			Price: price,
-			// Description: ,
-		},
-		Strength:       strength,
-		Kcal:           KcalPerMass[string(id)] * mass,
-		Mass:           mass,
-		ExpirationDate: expDate,
-	}
-}
+// func NewDrug(id types.UID, name string, price float32, strength float32, mass float32, expDate int) *Drug {
+// 	return &Drug{
+// 		Goods: &Goods{
+// 			ID:        id,
+// 			GoodsType: FoodType,
+// 			Name:      name,
+// 			// Brand: ,
+// 			Price: price,
+// 			// Description: ,
+// 		},
+// 		Strength:       strength,
+// 		Kcal:           KcalPerMass[string(id)] * mass,
+// 		Mass:           mass,
+// 		ExpirationDate: expDate,
+// 	}
+// }
 
-func (d *Drug) Eat() {
+// func (d *Drug) Eat() {
 
-}
+// }

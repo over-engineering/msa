@@ -1,16 +1,16 @@
-package character
+package status
 
 import (
-	"github.com/over-engineering/msa/models/brain"
-	"github.com/over-engineering/msa/models/lifecycle"
-	"github.com/over-engineering/msa/models/needs"
-	"github.com/over-engineering/msa/models/physical"
+	"github.com/over-engineering/msa/models/status/brain"
+	"github.com/over-engineering/msa/models/status/life"
+	"github.com/over-engineering/msa/models/status/needs"
+	"github.com/over-engineering/msa/models/status/physical"
 )
 
 // Status represents all aspects of character's current state.
 type Status struct {
 	// 나이
-	lifecycle.LifeCycle `json:"life_cycle"` // range: 0~
+	life.LifeCycle `json:"life_cycle"` // range: 0~
 	// Physical
 	physical.Physical `json:"physical"`
 	// Brain
@@ -23,7 +23,7 @@ type Status struct {
 // NewStatus returns Status with given information
 func NewStatus() Status {
 	return Status{
-		LifeCycle: lifecycle.LifeCycle{
+		LifeCycle: life.LifeCycle{
 			Alive: true,
 		},
 		Physical: physical.Physical{

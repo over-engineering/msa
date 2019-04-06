@@ -26,7 +26,7 @@ func (f *Finance) SubBalance(val Dollars) error {
 		f.Balance -= val
 		return nil
 	}
-	return errors.New("character's balance is not enough")
+	return errors.New("balance is not enough")
 }
 
 // TaxInfo represents the tax related infos charged to the character.

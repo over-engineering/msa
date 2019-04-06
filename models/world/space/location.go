@@ -23,7 +23,7 @@ type Location struct {
 // 	l2.UpdateDistance(l.X, l.Y)
 // }
 
-func Distance(l1 *Location, l2 *Location) float32 {
+func Distance(l1 Location, l2 Location) float32 {
 	return float32(math.Pow(math.Pow(float64(l1.X-l2.X), 2)+math.Pow(float64(l1.Y-l2.Y), 2), 0.5))
 }
 

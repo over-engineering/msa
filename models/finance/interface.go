@@ -14,7 +14,7 @@ type Payer interface {
 // Banker represents interface for transfering money from Payer to Payer.
 type Banker interface {
 	Transfer(amount Dollars, from, to Payer) error
-	TransferById(amount Dollars, from, to types.UID)
+	TransferById(amount Dollars, from, to types.UID) error
 }
 
 // TaxCollector represents 국세청's functionality.

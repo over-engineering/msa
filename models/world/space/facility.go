@@ -1,71 +1,71 @@
 package world
 
 import (
-	"errors"
-	"fmt"
+	"time"
 
-	"github.com/over-engineering/msa/models/character"
+	"github.com/over-engineering/msa/models/finance"
+
 	"github.com/over-engineering/msa/models/types"
 )
 
+type FacilityStatusType types.Type
+
+const (
+	Available FacilityStatusType = iota // 0
+	UnderConstruction
+	TemporarySuspension
+	Vacation
+)
+
+func (fs FacilityStatusType) String() string {
+	switch fs {
+	case Available:
+		return "available"
+	case UnderConstruction:
+		return "under construction"
+	case TemporarySuspension:
+		return "temporary suspension"
+	case Vacation:
+		return "vacation"
+	default:
+		return "facility status: not defined status type"
+	}
+}
+
 type Facility struct {
-	ID       types.UID `json:"id"`
-	Location Location  `json:"location"`
+	ID          types.UID          `json:"id"`
+	Name        string             `json:"name"`
+	Owner       types.UID          `json:"owner"`
+	Location    Location           `json:"location"`
+	Constructed time.Time          `json:"constructed"`
+	Status      FacilityStatusType `json:"status"`
+	Value       finance.Dollars    `json:"value"`
 }
 
-func (f Facility) GetID() types.UID {
-	return f.ID
-}
+type Building struct {
+	Facility `json:"facility"`
 
-func (f Facility) GetLocation() Location {
-	return f.Location
+	Floor      int     `json:"floor"`
+	Horizontal float32 `json:"horizontal"`
+	Vertical   float32 `json:"vertical"`
 }
 
 type Stadium struct {
 	Facility `json:"facility"`
 
-	Capacity int `json:"capacity"`
+	TeamID      types.UID   `json:"team_id"`
+	Capacity    int         `json:"capacity"`
+	Trainings   []types.UID `json:"trainings"`
+	AvailEvents []types.UID `json:"avail_events"`
 }
-
-// GetInfo returns the specific information in string.
-// option 0: capacity
-func (s Stadium) GetInfo(option int) string {
-	switch option {
-	case 0:
-		cap := fmt.Sprintf("%d", s.Capacity)
-		return cap
-	default:
-		return "No option matching"
-	}
-}
-
-func (s Stadium) UseFacility(by *character.Character, option int, args []string) error {
-	switch option {
-	case 0:
-		return nil
-	default:
-		return errors.New("no option matching")
-	}
-}
-
-// func (s *Stadium) Visit(l *Location, st *Status) {
-// 	s.Location.Visit(l, st)
-// }
 
 type Market struct {
-	ID       types.UID `json:"id"`
-	Location *Location `json:"location"`
-	Capacity int       `json:"capacity"`
-	// GoodsList    []GoodsHelper `json:"goods_list"`
-	DiscountRate float32 `json:"discount_rate"` // 0~1
-}
+	Facility `json:"facility"`
 
-func (m *Market) GetLocation() *Location {
-	return m.Location
-}
-
-func (m *Market) GetCapacity() int {
-	return m.Capacity
+	Goods map[types.CID]int `json:"goods_ids"`
+	// SellerIDs    []types.UID `json:"seller_ids"`
+	DiscountRate float32       `json:"discount_rate"` // 0~1
+	ShoppingTime time.Duration `json:"shopping_time"`
 }
 
 // func (m *Market) Visit(l *Location, st *Status) {

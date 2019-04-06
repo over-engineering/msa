@@ -6,8 +6,8 @@ type Type int
 // UID represents the unique ID for various types.
 type UID string
 
-// JobType is an enum for various job types.
-type JobType Type
+// CID represents the common ID for various types.
+type CID string
 
 // EquipmentType is an enum for equipment types.
 type EquipmentType Type

@@ -18,3 +18,7 @@ type Physical struct {
 	ProducedCal float32 `json:"produced_cal"`
 	ComsumedCal float32 `json:"consumed_cal"`
 }
+
+func NewPhysical() Physical {
+	return Physical{}
+}
