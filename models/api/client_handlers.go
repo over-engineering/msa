@@ -10,6 +10,7 @@ import (
 )
 
 var FootballClient *Client
+var ProgamerClient *Client
 
 func UpdateAbility(id types.UID, gameType string, status character.Status) {
 	switch gameType {
@@ -22,6 +23,15 @@ func UpdateAbility(id types.UID, gameType string, status character.Status) {
 		// }
 
 		FootballClient.Do(req, &ability)
+	case "progamer":
+		ability := ability.UpdateProgamerAbility(id, &status)
+		req, _ := ProgamerClient.NewRequest("POST", "/api/ability", ability)
+		fmt.Println(req, ability)
+		// if err != nil {
+		// 	return nil, err
+		// }
+
+		ProgamerClient.Do(req, &ability)
 	default:
 	}
 }

@@ -61,15 +61,48 @@ func (mType FootballAbilityType) String() string {
 	return names[mType]
 }
 
-type FootballAbility struct {
+type ProgamerAbilityType types.Type
+
+const (
+	MOVING        ProgamerAbilityType = iota // 0
+	SKILLSHOT                                // 1
+	REACTION                                 // 2
+	CONCENTRATION                            // 3
+	CREATIVITY                               // 4
+)
+
+func (mType ProgamerAbilityType) String() string {
+	names := [25]string{
+		"MOVING",        // 0
+		"SKILLSHOT",     // 1
+		"REACTION",      // 2
+		"CONCENTRATION", // 3
+		"CREATIVITY",    // 4
+	}
+
+	if mType < MOVING || mType > CREATIVITY {
+		return "Error"
+	}
+
+	return names[mType]
+}
+
+type Ability struct {
 	// ID represents character or entity that have this ability
 	ID            types.UID `json:"id"`
 	AbilityIvList []float32 `json:"ability_iv_list"`
 }
 
-func UpdateFootballAbility(id types.UID, s *character.Status) FootballAbility {
+func UpdateFootballAbility(id types.UID, s *character.Status) Ability {
 	// TODO: Update football ability depending on character status
-	return FootballAbility{
+	return Ability{
+		ID:            id,
+		AbilityIvList: []float32{50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50},
+	}
+}
+
+func UpdateProgamerAbility(id types.UID, s *character.Status) Ability {
+	return Ability{
 		ID:            id,
 		AbilityIvList: []float32{50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50, 50},
 	}

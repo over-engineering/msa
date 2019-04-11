@@ -9,3 +9,7 @@ func FindTrainingByID(id types.UID) *Training {
 	// TODO:
 	return &Training{}
 }
+
+func (t *Training) TakeTraining() {
+
+}

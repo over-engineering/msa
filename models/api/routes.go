@@ -35,4 +35,10 @@ var routes = Routes{
 		"/api/character/{game_type}",
 		CreateCharacter,
 	},
+	Route{
+		"UpdateCharacterByTraining",
+		"PUT",
+		"/api/character/training/{id}/{game_type}",
+		UpdateCharacterByTraining,
+	},
 }

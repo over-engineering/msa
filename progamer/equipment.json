@@ -1,0 +1,24 @@
+{
+    "equipments": [
+      {
+        "id": "equipment0",
+        "equipment_type": 5,
+        "target_ability": {
+          "1": 5,
+          "2": 5,
+          "3": 5,
+          "4": 5
+        }
+      },
+      {
+        "id": "equipment1",
+        "equipment_type": 5,
+        "target_ability": {
+          "0": 10,
+          "2": 10,
+          "3": 10,
+          "4": 10
+        }
+      }
+    ]
+  }
