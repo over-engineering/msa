@@ -21,7 +21,7 @@ type Status struct {
 }
 
 // NewStatus returns Status with given information
-func NewStatus() Status {
+func NewStatus(val float32) Status {
 	return Status{
 		LifeCycle: life.LifeCycle{
 			Alive: true,
@@ -32,6 +32,9 @@ func NewStatus() Status {
 			Weight: float32(78.3),
 			Charm:  50,
 		},
+		Brain:    brain.NewBrain(val),
+		Needs:    needs.NewNeeds(val),
+		Hormones: needs.NewHormones(val),
 	}
 }
 
