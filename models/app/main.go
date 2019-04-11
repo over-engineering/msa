@@ -9,15 +9,27 @@ import (
 )
 
 const (
+	CommonScheme   = "http"
+	CommonHost     = "localhost:8080"
 	FootballScheme = "http"
 	FootballHost   = "localhost:8081"
+	ProgamerScheme = "http"
+	ProgamerHost   = "localhost:8082"
 )
 
 func main() {
-	api.FootballClient = api.NewClient(
+	// api.FootballClient = api.NewClient(
+	// 	&url.URL{
+	// 		Scheme: FootballScheme,
+	// 		Host:   FootballHost,
+	// 	},
+	// 	"",
+	// 	nil,
+	// )
+	api.ProgamerClient = api.NewClient(
 		&url.URL{
-			Scheme: FootballScheme,
-			Host:   FootballHost,
+			Scheme: ProgamerScheme,
+			Host:   ProgamerHost,
 		},
 		"",
 		nil,
