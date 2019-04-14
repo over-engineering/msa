@@ -12,5 +12,5 @@ func ExampleCreateNewCharacter() {
 	)
 	fmt.Println(nc)
 	// Output:
-	//
+	// Hello
 }

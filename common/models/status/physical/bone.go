@@ -65,10 +65,11 @@ func (bt BoneType) String() string {
 // Bone represents the strength, condition, cracked info
 // about the bone.
 type Bone struct {
-	Strength     float32 `json:"strength"`  // Strength is the parameter for calculation of wearing out
-	Condition    float32 `json:"condition"` // Condition range: 0~1
-	MaxCondition float32 `json:"max_condition"`
-	Cracked      bool    `json:"cracked"`
+	Type         BoneType `json:"type"`
+	Strength     float32  `json:"strength"`  // Strength is the parameter for calculation of wearing out
+	Condition    float32  `json:"condition"` // Condition range: 0~1
+	MaxCondition float32  `json:"max_condition"`
+	Cracked      bool     `json:"cracked"`
 }
 
 func (b *Bone) String() string {
@@ -76,19 +77,20 @@ func (b *Bone) String() string {
 }
 
 // Bones is a data structure for Bone Map.
-type Bones map[BoneType]*Bone
+type Bones []Bone
 
 // NewBones returns Bones with intialized value.
 func NewBones(r *rand.Rand, b, s float32) Bones {
 	m := Bones{}
 	for i := Skull; i < RightToeBone; i++ {
-		newBone := &Bone{
+		newBone := Bone{
+			Type:         i,
 			Strength:     (r.Float32()-0.5)*s + b,
 			Condition:    100,
 			MaxCondition: 100,
 			Cracked:      false,
 		}
-		m[i] = newBone
+		m = append(m, newBone)
 	}
 	return m
 }

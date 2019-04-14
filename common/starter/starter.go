@@ -18,6 +18,7 @@ import (
 const initialValue = float32(50)
 
 func CreateNewCharacter(
+	userId types.UID,
 	bornTime string,
 	fName, lName string,
 	generation int,
@@ -63,7 +64,7 @@ func CreateNewCharacter(
 	if err != nil {
 		return nil, err
 	}
-	c := user.NewCharacter(*i, current)
+	c := user.NewCharacter(userId, *i, current)
 	return c, nil
 }
 

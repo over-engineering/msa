@@ -33,7 +33,7 @@ var routes = Routes{
 		"CreateCharacter",
 		"POST",
 		"/api/character/{game_type}",
-		CreateCharacter,
+		apiPostCharacter,
 	},
 	Route{
 		"UpdateCharacterByTraining",

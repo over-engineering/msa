@@ -100,7 +100,7 @@ func (mType BrainType) String() string {
 // peak까지는 iSlope만큼 증가, peak 이후부터는 Dslope만큼 brain 값이 감소
 const peak, iSlope, dSlope = 30, 1.1, 0.9
 
-type SubBrain map[BrainType]float32
+type SubBrain []float32
 
 func NewSubBrain(index int, r *rand.Rand, b, s float32) SubBrain {
 	m := SubBrain{}
@@ -127,7 +127,7 @@ func NewSubBrain(index int, r *rand.Rand, b, s float32) SubBrain {
 	}
 
 	for i <= j {
-		m[i] = (r.Float32()-0.5)*s + b
+		m = append(m, (r.Float32()-0.5)*s+b)
 		i++
 	}
 	return m
